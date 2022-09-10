@@ -3,33 +3,33 @@ import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from
 
 // Auth Services
 import { AuthenticationService } from '../services/auth.service';
-import { AuthfakeauthenticationService } from '../services/authfake.service';
-import { environment } from '../../../environments/environment';
+
+import { isNotNullOrUndefined } from 'codelyzer/util/isNotNullOrUndefined'
+
 
 @Injectable({ providedIn: 'root' })
 export class AuthGuard implements CanActivate {
     constructor(
         private router: Router,
         private authenticationService: AuthenticationService,
-        private authFackservice: AuthfakeauthenticationService
     ) { }
 
-    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-        if (environment.defaultauth === 'firebase') {
-            const currentUser = this.authenticationService.currentUser();
-            if (currentUser) {
-                // logged in so return true
-                return true;
-            }
+    canActivate(route: ActivatedRouteSnapshot) {
+        if (!this.authenticationService.getLoginUser()) {
+
+            let data: any = this.authenticationService.getLoginUser();
+            console.log(data);
+            
+            return true;
         } else {
-            const currentUser = this.authFackservice.currentUserValue;
-            if (currentUser) {
-                // logged in so return true
-                return true;
-            }
+            // not logged in so redirect to login page with the return url
+            this.router.navigate(['/auth/login']);
+            return false;
         }
-        // not logged in so redirect to login page with the return url
-        this.router.navigate(['/auth/login'], { queryParams: { returnUrl: state.url } });
-        return false;
+
+
     }
 }
+
+
+

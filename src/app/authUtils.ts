@@ -11,7 +11,7 @@ class FirebaseAuthBackend {
             firebase.initializeApp(firebaseConfig);
             firebase.auth().onAuthStateChanged((user: any) => {
                 if (user) {
-                    sessionStorage.setItem('authUser', JSON.stringify(user));
+                    // sessionStorage.setItem('authUser', JSON.stringify(user));
                 } else {
                     sessionStorage.removeItem('authUser');
                 }

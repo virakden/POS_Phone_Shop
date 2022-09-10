@@ -43,8 +43,8 @@ export class CoverComponent implements OnInit {
      * Form Validatyion
      */
      this.loginForm = this.formBuilder.group({
-      email: ['admin@gmail.com', [Validators.required, Validators.email]],
-      password: ['123456', [Validators.required]],
+      // email: ['admin@gmail.com', [Validators.required, Validators.email]],
+      // password: ['123456', [Validators.required]],
     });
     // get return url from route parameters or default to '/'
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
@@ -64,14 +64,7 @@ export class CoverComponent implements OnInit {
     if (this.loginForm.invalid) {
       return;
     } else {
-      if (environment.defaultauth === 'firebase') {
-        this.authFackservice.login(this.f['email'].value, this.f['password'].value).pipe(first()).subscribe(data => {
-          this.router.navigate(['/']);
-        },
-        error => {
-          this.error = error ? error : '';
-        })
-      }
+      
     }
   }
 

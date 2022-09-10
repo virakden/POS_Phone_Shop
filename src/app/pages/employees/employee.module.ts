@@ -1,3 +1,4 @@
+import { EmployeeComponent } from './employee/employee.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -17,12 +18,11 @@ import { DropzoneConfigInterface } from 'ngx-dropzone-wrapper';
 import { SimplebarAngularModule } from 'simplebar-angular';
 
 // Component pages
-import { NftMarketplaceRoutingModule } from "./nft-marketplace-routing.module";
 import { SharedModule } from '../../shared/shared.module';
-import { CustomersComponent } from './employee/customers.component';
 
 // Flat Picker
 import { FlatpickrModule } from 'angularx-flatpickr';
+import { EmployeeRouting } from './employee-routing.module';
 
 
 
@@ -34,13 +34,12 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
 
 @NgModule({
   declarations: [
-    CustomersComponent
+    EmployeeComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    NftMarketplaceRoutingModule,
     NgbDropdownModule,
     NgbPaginationModule,
     NgbTypeaheadModule,
@@ -51,6 +50,7 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     DropzoneModule,
     SimplebarAngularModule,
     FlatpickrModule.forRoot(),
+    EmployeeRouting
   ]
 })
-export class NftMarketplaceModule { }
+export class EmployeeModules { }
