@@ -6,33 +6,31 @@ import { AppComponent } from './app.component';
 
 import { LayoutsModule} from "./layouts/layouts.module";
 import { PagesModule } from "./pages/pages.module";
+import {MessagesModule} from 'primeng/messages';
+import { ConfirmDialogModule } from 'primeng/confirmdialog'
+
 
 // Auth
 import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS  } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { environment } from '../environments/environment';
-import { initFirebaseBackend } from './authUtils';
-import { FakeBackendInterceptor } from './core/helpers/fake-backend';
-import { ErrorInterceptor } from './core/helpers/error.interceptor';
 import { JwtInterceptor } from './core/helpers/jwt.interceptor';
 
 // Language
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { BaseComponent } from './core/base/base.component';
 
 export function createTranslateLoader(http: HttpClient): any {
   return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
 }
 
-if (environment.defaultauth === 'firebase') {
-  initFirebaseBackend(environment.firebaseConfig);
-} else {
-  FakeBackendInterceptor;
-}
+
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    BaseComponent
   ],
   imports: [
     TranslateModule.forRoot({
@@ -41,6 +39,7 @@ if (environment.defaultauth === 'firebase') {
         provide: TranslateLoader,
         useFactory: (createTranslateLoader),
         deps: [HttpClient]
+        
       }
     }),
     BrowserAnimationsModule,
@@ -48,12 +47,14 @@ if (environment.defaultauth === 'firebase') {
     BrowserModule,
     AppRoutingModule,
     LayoutsModule,
-    PagesModule
+    PagesModule,
+    MessagesModule,
+    ConfirmDialogModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: FakeBackendInterceptor, multi: true },
+    // { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    {provide: LocationStrategy, useClass: HashLocationStrategy}
   ],
   bootstrap: [AppComponent]
 })

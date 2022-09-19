@@ -1,12 +1,11 @@
+import { LoginResponse, Data } from './../../core/models/auth.models';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 // Login Auth
-import { environment } from '../../../environments/environment';
 import { AuthenticationService } from '../../core/services/auth.service';
-import { AuthfakeauthenticationService } from '../../core/services/authfake.service';
-import { first } from 'rxjs/operators';
+import { Login } from 'src/app/core/models/auth.models';
 
 @Component({
   selector: 'app-login',
@@ -23,70 +22,104 @@ export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   submitted = false;
   fieldTextType!: boolean;
-  error = '';
+  error = 'Invalid Credentials';
   returnUrl!: string;
-
-  toast!: false;
+  loginErr?: string;
+  isLoading!: false;
 
   // set the current year
   year: number = new Date().getFullYear();
-   // Carousel navigation arrow show
-   showNavigationArrows: any;
+  // Carousel navigation arrow show
+  showNavigationArrows: any;
 
-  constructor(private formBuilder: FormBuilder,private authenticationService: AuthenticationService,private router: Router,
-    private authFackservice: AuthfakeauthenticationService,private route: ActivatedRoute,) {
-      // redirect to home if already logged in
-      if (this.authenticationService.currentUserValue) {
-        this.router.navigate(['/']);
-      }
-     }
+  constructor(private formBuilder: FormBuilder, private authenticationService: AuthenticationService,
+    private router: Router, private route: ActivatedRoute,
+
+  ) {
+    // redirect to dashboard if already logged in
+    if (this.authenticationService.getLoginUser()) {
+      this.router.navigate(['/']);
+      // console.log("test");
+      
+    }
+  }
 
   ngOnInit(): void {
     /**
      * Form Validatyion
      */
-     this.loginForm = this.formBuilder.group({
-      email: ['admin@gmail.com', [Validators.required, Validators.email]],
-      password: ['123456', [Validators.required]],
-    });
+    this.initFrom();
     // get return url from route parameters or default to '/'
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
+
+  initFrom(): void {
+    this.loginForm = this.formBuilder.group({
+      email: [null, Validators.required],
+      password: [null, Validators.required],
+      remember: [false],
+    });
+
+    const userData = JSON.parse(<string>localStorage.getItem('REMEMBER')) as Login;
+    if (userData) {
+      this.loginForm.controls['email'].setValue(userData.email);
+      this.loginForm.controls['password'].setValue(userData.password);
+      this.loginForm.controls['remember'].setValue(userData.remember);
+
+    }
+  }
+
+  
 
   // convenience getter for easy access to form fields
   get f() { return this.loginForm.controls; }
 
   /**
-   * Form submit
+   * Form login
    */
-   onSubmit() {
-    this.submitted = true;
-    // stop here if form is invalid
-    if (this.loginForm.invalid) {
-      return;
-    } else {
-      if (environment.defaultauth === 'firebase') {
-        this.authenticationService.login(this.f['email'].value, this.f['password'].value).then((res: any) => {
+  login(loginData: Login) {
+    const merge = Object.assign({
+      email: loginData.email,
+      password: this.authenticationService.Encrypt(loginData.password)
+    });
+    console.log('merge', merge);
+    this.authenticationService.login(loginData).subscribe(
+      (res: LoginResponse) => {
+        console.log(res.response.status);
+        
+        if (res.response.status === 200 ){
+          sessionStorage.setItem('token', res.results.token);
+          if( loginData.remember === true){
+            this.authenticationService.rememberLoginUser(res.results);
+            localStorage.setItem('REMEMBER', JSON.stringify(loginData));
+            this.router.navigate(['/']);
+          }
+          else {
+            localStorage.removeItem('REMEMBER');
+            this.authenticationService.setLoginUser(res.results);
+          }
+          // localStorage.setItem('REMEMBER', JSON.stringify(loginData));
           this.router.navigate(['/']);
-        })
-          .catch(error => {
-            this.error = error ? error : '';
-          });
-      } else {
-        this.authFackservice.login(this.f['email'].value, this.f['password'].value).pipe(first()).subscribe(data => {
-              this.router.navigate(['/']);
-            },
-            error => {
-              this.error = error ? error : '';
-            });
-      }
-    }
+        } else {
+          this.isLoading = false;
+          this.loginErr = res.response.message;
+        }
+        this.isLoading = false;
+        console.log(res);
+      },
+      
+    )
+
   }
+  // ErrorInterceptor(): ((error: any) => void) | undefined {
+  //   throw new Error('Method not implemented.');
+  // }
+ 
 
   /**
    * Password Hide/Show
    */
-   toggleFieldTextType() {
+  toggleFieldTextType() {
     this.fieldTextType = !this.fieldTextType;
   }
 

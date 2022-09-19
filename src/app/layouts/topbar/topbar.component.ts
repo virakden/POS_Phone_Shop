@@ -1,11 +1,10 @@
+import { LayoutComponent } from './../layout.component';
 import { Component, OnInit, EventEmitter, Output, Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { EventService } from '../../core/services/event.service';
 
 //Logout
-import { environment } from '../../../environments/environment';
 import { AuthenticationService } from '../../core/services/auth.service';
-import { AuthfakeauthenticationService } from '../../core/services/authfake.service';
 import { Router } from '@angular/router';
 
 // Language
@@ -29,8 +28,9 @@ export class TopbarComponent implements OnInit {
   countryName: any;
   cookieValue: any;
 
-  constructor(@Inject(DOCUMENT) private document: any,private eventService: EventService, public languageService: LanguageService,
-  public _cookiesService: CookieService, public translate: TranslateService, private authService: AuthenticationService, private authFackservice: AuthfakeauthenticationService, private router: Router) { }
+  constructor(@Inject(DOCUMENT) private document: any, private eventService: EventService, public languageService: LanguageService,
+    public _cookiesService: CookieService, public translate: TranslateService, private authService: AuthenticationService, private router: Router,
+    public layout: LayoutComponent) { }
 
   ngOnInit(): void {
     this.element = document.documentElement;
@@ -40,15 +40,15 @@ export class TopbarComponent implements OnInit {
   /**
    * Toggle the menu bar when having mobile screen
    */
-     toggleMobileMenu(event: any) {
-      event.preventDefault();
-      this.mobileMenuButtonClicked.emit();
-    }
+  toggleMobileMenu(event: any) {
+    event.preventDefault();
+    this.mobileMenuButtonClicked.emit();
+  }
 
   /**
    * Fullscreen method
    */
-   fullscreen() {
+  fullscreen() {
     document.body.classList.toggle('fullscreen-enable');
     if (
       !document.fullscreenElement && !this.element.mozFullScreenElement &&
@@ -84,7 +84,7 @@ export class TopbarComponent implements OnInit {
   /**
   * Topbar Light-Dark Mode Change
   */
-   changeMode(mode: string) {
+  changeMode(mode: string) {
     this.mode = mode;
     this.eventService.broadcast('changeMode', mode);
 
@@ -106,13 +106,8 @@ export class TopbarComponent implements OnInit {
   /**
    * Logout the user
    */
-   logout() {
-    if (environment.defaultauth === 'firebase') {
-      this.authService.logout();
-    } else {
-      this.authFackservice.logout();
-    }
-    this.router.navigate(['/auth/login']);
+  logout() {
+    this.authService.logout();
   }
 
 }

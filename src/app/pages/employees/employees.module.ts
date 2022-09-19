@@ -1,3 +1,5 @@
+import { DialogService } from 'primeng/dynamicdialog';
+import { SharedService } from 'src/app/shared/shared.service';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -17,9 +19,9 @@ import { DropzoneConfigInterface } from 'ngx-dropzone-wrapper';
 import { SimplebarAngularModule } from 'simplebar-angular';
 
 // Component pages
-import { NftMarketplaceRoutingModule } from "./nft-marketplace-routing.module";
+import { EmployeeRoutingModule } from "./employees-routing.module";
 import { SharedModule } from '../../shared/shared.module';
-import { CustomersComponent } from './employee/customers.component';
+import { EmployeesComponent } from './employee/employees.component';
 
 // Flat Picker
 import { FlatpickrModule } from 'angularx-flatpickr';
@@ -34,13 +36,13 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
 
 @NgModule({
   declarations: [
-    CustomersComponent
+    EmployeesComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    NftMarketplaceRoutingModule,
+    EmployeeRoutingModule,
     NgbDropdownModule,
     NgbPaginationModule,
     NgbTypeaheadModule,
@@ -51,6 +53,10 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     DropzoneModule,
     SimplebarAngularModule,
     FlatpickrModule.forRoot(),
+  ],
+  providers:[
+    SharedService,
+    DialogService
   ]
 })
-export class NftMarketplaceModule { }
+export class EmployeeModule { }

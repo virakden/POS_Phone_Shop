@@ -52,7 +52,7 @@ const routes: Routes = [
       path: 'maps', loadChildren: () => import('./maps/maps.module').then(m => m.MapsModule)
     },
     {
-      path: 'employees', loadChildren: () => import('./employees/nft-marketplace.module').then(m => m.NftMarketplaceModule)
+      path: 'employees', loadChildren: () => import('./employees/employees.module').then(m => m.EmployeeModule)
     }
 ];
 

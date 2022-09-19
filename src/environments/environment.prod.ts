@@ -1,14 +1,7 @@
 export const environment = {
   production: true,
-  defaultauth: 'fackbackend',
-  firebaseConfig: {
-    apiKey: '',
-    authDomain: '',
-    databaseURL: '',
-    projectId: '',
-    storageBucket: '',
-    messagingSenderId: '',
-    appId: '',
-    measurementId: ''
-  }
+  baseServer: 'http://localhost:8080/v1',
+  baseServerLogin: 'http://localhost:8080/v1/api',
+  baseStorageEmpl: 'http://localhost:8080/v1/employee/upLoadImage',
+  baseStoragePro: 'http://localhost:8080/v1/product/upLoadPhoto'
 };

@@ -1,3 +1,4 @@
+import { AuthenticationService } from './../../../../core/services/auth.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -16,9 +17,11 @@ export class CoverComponent implements OnInit {
   // Carousel navigation arrow show
   showNavigationArrows: any;
 
-  constructor() { }
+  constructor( private authenticationService : AuthenticationService) { }
 
   ngOnInit(): void {
+    this.authenticationService.logout();
   }
+
 
 }

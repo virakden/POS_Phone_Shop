@@ -33,6 +33,7 @@ import { FeaturesComponent } from './landing/nft/features/features.component';
 import { CategoriesComponent } from './landing/nft/categories/categories.component';
 import { DiscoverComponent } from './landing/nft/discover/discover.component';
 import { TopCreatorComponent } from './landing/nft/top-creator/top-creator.component';
+import { SharedComponent } from './shared.component';
 
 const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
   direction: 'horizontal',
@@ -61,7 +62,8 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     FeaturesComponent,
     CategoriesComponent,
     DiscoverComponent,
-    TopCreatorComponent
+    TopCreatorComponent,
+    SharedComponent
   ],
   imports: [
     CommonModule,

@@ -14,11 +14,11 @@
           </div>
           <div class="col-sm-auto">
             <div class="d-flex gap-2">
-              <button class="btn btn-soft-danger" onClick="deleteMultiple()"><i
-                  class="ri-delete-bin-2-line"></i></button>
+               <!-- <button class="btn btn-soft-danger" onClick="deleteMultiple()"><i
+                  class="ri-delete-bin-2-line"></i></button> -->
               <button type="button" class="btn btn-success add-btn" data-bs-toggle="modal" id="create-btn"
                 data-bs-target="#showModal" (click)="openModal(content)"><i class="ri-add-line align-bottom me-1"></i>
-                Add Employee</button>
+                Add Employee</button> 
               <!-- <button type="button" class="btn btn-info"><i class="ri-file-download-line align-bottom me-1"></i> Import</button> -->
             </div>
           </div>
@@ -28,12 +28,12 @@
         <form>
           <div class="row g-3">
             <div class="col-xl-6">
-              <div class="search-box">
+              <!-- <div class="search-box">
                 <input type="text" name="searchTerm" class="form-control"
                   placeholder="Search for employeee, position, phone, status or something..."
                   [(ngModel)]="service.searchTerm">
                 <i class="ri-search-line search-icon"></i>
-              </div>
+              </div> -->
             </div>
             <!--end col-->
           </div>
@@ -46,68 +46,72 @@
             <table class="table">
               <thead class="table-light text-muted">
                 <tr>
-                  <th scope="col" style="width: 50px;">
-                    <div class="form-check">
+                  <!-- <th scope="col" style="width: 50px;"> -->
+                    <!-- <div class="form-check">
                       <input class="form-check-input" type="checkbox" id="checkAll" value="option"
                         [(ngModel)]="masterSelected" (change)="checkUncheckAll()">
-                    </div>
-                  </th>
-                  <th class="sort" data-sort="customer_name">Employee</th>
-                  <th class="sort" data-sort="email">Position</th>
+                    </div> -->
+                  <!-- </th> -->
+                  <th class="sort" data-sort="employeeName">Name</th>
+                  <th class="sort" data-sort="employeeEmail">Email</th>
                   <th class="sort" data-sort="phone">Phone</th>
                   <th class="sort" data-sort="date">Joining Date</th>
                   <th class="sort" data-sort="status">Status</th>
                   <th class="sort" data-sort="action">Action</th>
                 </tr>
               </thead>
+              
               <tbody>
-                <tr *ngFor="let data of invoiceList$ | async">
-                  <th scope="row">
+                <tr *ngFor="let rowData of Empl">
+                  <!-- <th scope="row">
                     <div class="form-check">
                       <input class="form-check-input" type="checkbox" name="checkAll" value="option1"
-                        [(ngModel)]="data.isSelected">
+                        [(ngModel)]="rowData.isSelected">
                     </div>
-                  </th>
-                  <!-- <td><ngb-highlight [result]="data.name" [term]="service.searchTerm"></ngb-highlight></td> -->
+                  </th> -->
                   <td class="customer_name">
-                    <div class="d-flex align-items-center" *ngIf="data.img">
-                      <img src="{{data.img}}" class="avatar-xs rounded-circle me-2" alt="">
-                      {{data.name}}
+                    <div class="d-flex align-items-center" *ngIf="rowData.profilePhoto">
+                      <img src="{{rowData.profilePhoto}}" class="avatar-xs rounded-circle me-2" alt="">
+                      {{rowData.employeeName}}
                     </div>
-                    <div class="d-flex align-items-center" *ngIf="!data.img">
+                    <div class="d-flex align-items-center" *ngIf="!rowData.profilePhoto">
                       <div class="flex-shrink-0 avatar-xs me-2">
                         <div class="avatar-title bg-soft-success text-success rounded-circle fs-13">
-                          {{ data.name.charAt(0) }}
+                          {{ rowData.employeeName}}
                         </div>
                       </div>
-                      {{data.name}}
+                      {{rowData.employeeName}}
                     </div>
                   </td>
                   <td>
-                    <ngb-highlight [result]="data.position" [term]="service.searchTerm"></ngb-highlight>
+                    <ngb-highlight [result]="rowData.employeeEmail" ></ngb-highlight>
                   </td>
                   <td>
-                    <ngb-highlight [result]="data.phone" [term]="service.searchTerm"></ngb-highlight>
+                    <ngb-highlight [result]="rowData.employeeTelephone" ></ngb-highlight>
                   </td>
                   <td>
-                    <ngb-highlight [result]="data.date" [term]="service.searchTerm"></ngb-highlight>
+                    <ngb-highlight [result]="rowData.joinDate" ></ngb-highlight>
                   </td>
-                  <td class="status"><span
-                      class="badge badge-soft-{{data.statusClass}} text-uppercase">{{data.status}}</span></td>
+                  <td class="status">
+                    <ngb-highlight [result]="rowData.status" ></ngb-highlight>
+                    <!-- <span
+                      class="badge badge-soft-{{rowData.status}} text-uppercase">{{rowData.status}}
+                    </span> -->
+                  </td>
                   <td>
                     <ul class="list-inline hstack gap-2 mb-0">
                       <li class="list-inline-item edit" ngbTooltip="Edit" placement="top">
                         <a href="javascript:void(0);" data-bs-toggle="modal"
-                          class="text-primary d-inline-block edit-item-btn">
+                          class="text-primary d-inline-block edit-item-btn" >
                           <i class="ri-pencil-fill fs-16"></i>
                         </a>
                       </li>
-                      <li class="list-inline-item" ngbTooltip="Remove" placement="top">
+                      <!-- <li class="list-inline-item" ngbTooltip="Remove" placement="top">
                         <a class="text-danger d-inline-block remove-item-btn" data-bs-toggle="modal"
-                          data-bs-target="#deleteRecordModal" (click)="confirm()">
+                          data-bs-target="#deleteRecordModal" (click)="showDeleteForm(f.value)">
                           <i class="ri-delete-bin-5-fill fs-16"></i>
                         </a>
-                      </li>
+                      </li> -->
                     </ul>
                   </td>
                 </tr>
@@ -117,101 +121,120 @@
           <div class="row justify-content-md-between align-items-md-center">
             <div class="col col-sm-5">
               <div class="dataTables_info mb-2" id="tickets-table_info" role="status" aria-live="polite">
+                <!-- Showing
+                {{service.startIndex}} to
+                {{service.endIndex}} of {{service.totalRecords}}
+                entries -->
                 Showing
                 {{service.startIndex}} to
                 {{service.endIndex}} of {{service.totalRecords}}
-                entries
               </div>
-            </div>
+            </div> 
             <!-- Pagination -->
-            <div class="col col-sm-5">
+             <div class="col col-sm-5">
               <div class="text-sm-right float-sm-end listjs-pagination">
-                <ngb-pagination [collectionSize]="(total$ | async)!" [(page)]="service.page"
-                  [pageSize]="service.pageSize">
+                <ngb-pagination [collectionSize]="(total$ | async)!" (pageChange)="done()" [(page)]="pages"
+                  [pageSize]="pageSize">
                 </ngb-pagination>
               </div>
             </div>
-            <!-- End Pagination -->
+             <!-- End Pagination  -->
           </div>
         </div>
 
-        <!-- Customer Create Model -->
-        <ng-template #content role="document" let-modal>
+        <!-- Employee Create Model -->
+         <ng-template #content role="document" let-modal>
           <div class="modal-header bg-light p-3">
             <h5 class="modal-title" id="exampleModalLabel">Add Employee</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"
               (click)="modal.dismiss('Cross click')"></button>
           </div>
-          <form (ngSubmit)="saveUser()" [formGroup]="customerForm">
+          <form [formGroup]="employeeForm">
             <div class="modal-body">
               <div class="mb-3">
                 <label for="customername-field" class="form-label">Employee Name</label>
                 <input type="text" id="customername-field" class="form-control" placeholder="Enter Name" required
-                  formControlName="name" [ngClass]="{ 'is-invalid': submitted && form['name'].errors }" />
-                <div *ngIf="submitted && form['name'].errors" class="invalid-feedback" align="left">
-                  <div *ngIf="form['name'].errors['required']">Employee Name is required</div>
+                  formControlName="employeeName" [ngClass]="{ 'is-invalid': submitted && employeeForm.controls['employeeName'].errors }" />
+                <div *ngIf="submitted && employeeForm.controls['employeeName'].errors" class="invalid-feedback" align="left">
+                  <div *ngIf="employeeForm.controls['employeeName'].errors['required']">Employee Name is required</div>
                 </div>
               </div>
 
               <div class="mb-3">
-                <label for="email-field" class="form-label">Position</label>
+                <label for="email-field" class="form-label">Email</label>
                 <input type="email" id="email-field" class="form-control" placeholder="Enter Email" required
-                  formControlName="email" [ngClass]="{ 'is-invalid': submitted && form['email'].errors }" />
-                <div *ngIf="submitted && form['email'].errors" class="invalid-feedback" align="left">
-                  <div *ngIf="form['email'].errors['required']">Postion is required</div>
+                  formControlName="employeeEmail" [ngClass]="{ 'is-invalid': submitted && employeeForm.controls['employeeEmail'].errors }" />
+                <div *ngIf="submitted && employeeForm.controls['employeeEmail'].errors" class="invalid-feedback" align="left">
+                  <div *ngIf="employeeForm.controls['employeeEmail'].errors['required']">Postion is required</div>
                 </div>
               </div>
 
               <div class="mb-3">
                 <label for="phone-field" class="form-label">Phone</label>
                 <input type="text" id="phone-field" class="form-control" placeholder="Enter Phone no." required
-                  formControlName="phone" [ngClass]="{ 'is-invalid': submitted && form['phone'].errors }" />
-                <div *ngIf="submitted && form['phone'].errors" class="invalid-feedback" align="left">
-                  <div *ngIf="form['phone'].errors['required']">Phone is required</div>
+                  formControlName="employeeTelephone" [ngClass]="{ 'is-invalid': submitted && employeeForm.controls['employeeTelephone'].errors }" />
+                <div *ngIf="submitted && employeeForm.controls['employeeTelephone'].errors" class="invalid-feedback" align="left">
+                  <div *ngIf="employeeForm.controls['employeeTelephone'].errors['required']">Phone is required</div>
                 </div>
               </div>
 
               <div class="mb-3">
+                <label for="password-field" class="form-label">Password</label>
+                <input type="text" id="password-field" class="form-control" placeholder="Enter your password" required
+                  formControlName="password" [ngClass]="{ 'is-invalid': submitted && employeeForm.controls['password'].errors }" />
+                <div *ngIf="submitted && employeeForm.controls['password'].errors" class="invalid-feedback" align="left">
+                  <div *ngIf="employeeForm.controls['password'].errors['required']">Phone is required</div>
+                </div>
+              </div>
+
+              <!-- <div class="mb-3">
                 <label for="date-field" class="form-label">Joining Date</label>
                 <input class="form-control flatpickr-input" type="text" mwlFlatpickr [altInput]="true"
                   [convertModelValue]="true">
-              </div>
+              </div> -->
 
-              <div class="mb-3">
+              <!-- <div class="mb-3">
                 <label for="status-field" class="form-label">Status</label>
                 <select class="form-control" data-trigger name="status-field" id="status-field" formControlName="status"
-                  [ngClass]="{ 'is-invalid': submitted && form['status'].errors }">
+                  [ngClass]="{ 'is-invalid': submitted && employeeForm.controls['status'].errors }">
                   <option value="">Status</option>
                   <option value="Active">Active</option>
                   <option value="Block">Close</option>
                 </select>
-                <div *ngIf="submitted && form['status'].errors" class="invalid-feedback" align="left">
-                  <div *ngIf="form['status'].errors['required']">Status is required</div>
+                <div *ngIf="submitted && employeeForm.controls['status'].errors" class="invalid-feedback" align="left">
+                  <div *ngIf="employeeForm.controls['status'].errors['required']">Status is required</div>
                 </div>
-              </div>
+              </div> -->
 
               <div class="mb-3">
                 <h5 class="fs-14 mb-1">Profile Picture</h5>
                 <p class="text-muted">Add Profile Picture.</p>
-                <dropzone class="dropzone_sec"></dropzone>
+                <dropzone class="dropzone_sec"></dropzone> 
                 <!-- end dropzon-preview -->
               </div>
-            </div>
-            <div class="modal-footer">
+            </div> 
+             <div class="modal-footer">
               <div class="hstack gap-2 justify-content-end">
                 <button type="button" class="btn btn-light" data-bs-dismiss="modal"
                   (click)="modal.close('Close click')">Close</button>
-                <button type="submit" class="btn btn-success" id="add-btn">Add Employee</button>
-              </div>
+                <button type="submit" class="btn btn-success" id="add-btn" (click)="saves(employeeForm.value)">Add Employee</button>
+              </div> 
             </div>
           </form>
-        </ng-template>
+        </ng-template> 
         <!--End Modal -->
+
+        
+
+
+
         <!--end modal -->
       </div>
     </div>
 
   </div>
   <!--end col-->
+
 </div>
 <!--end row-->
+
