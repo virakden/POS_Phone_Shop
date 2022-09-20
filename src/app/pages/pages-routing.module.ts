@@ -24,7 +24,7 @@ const routes: Routes = [
       path: 'tasks', loadChildren: () => import('./tasks/tasks.module').then(m => m.TasksModule)
     },
     {
-      path: 'stocks', loadChildren: () => import('./stocks/crm.module').then(m => m.CrmModule)
+      path: 'stocks', loadChildren: () => import('./stocks/product.module').then(m => m.CrmModule)
     },
     {
       path: 'crypto', loadChildren: () => import('./crypto/crypto.module').then(m => m.CryptoModule)
@@ -52,7 +52,7 @@ const routes: Routes = [
       path: 'maps', loadChildren: () => import('./maps/maps.module').then(m => m.MapsModule)
     },
     {
-      path: 'employees', loadChildren: () => import('./employees/employees.module').then(m => m.EmployeeModule)
+      path: 'employees', loadChildren: () => import('./employees/employees.module').then(m => m.EmployeeModules)
     }
 ];
 

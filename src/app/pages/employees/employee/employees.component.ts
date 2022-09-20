@@ -1,4 +1,4 @@
-import { EmployeeModule } from './../employees.module';
+import { EmployeeModules } from './../employees.module';
 import { SharedService } from './../../../shared/shared.service';
 import { BaseComponent } from './../../../core/base/base.component';
 import { Component, OnInit } from '@angular/core';
@@ -30,7 +30,7 @@ export class EmployeesComponent extends BaseComponent implements OnInit {
 
   // bread crumb items
   breadCrumbItems!: Array<{}>;
-  rowSelected = {} as EmployeeModule;
+  rowSelected = {} as EmployeeModules;
   submitted = false;
   employeeForm!: FormGroup;
   Empl!: employeeModel[];
@@ -85,6 +85,11 @@ export class EmployeesComponent extends BaseComponent implements OnInit {
 * @param content modal content
 */
   openModal(content: any) {
+    this.submitted = false;
+    this.modalService.open(content, { size: 'md', centered: true });
+  }
+
+  editModal(content: any) {
     this.submitted = false;
     this.modalService.open(content, { size: 'md', centered: true });
   }

@@ -3,11 +3,11 @@ import {Injectable, PipeTransform} from '@angular/core';
 
 import {BehaviorSubject, Observable, of, Subject} from 'rxjs';
 
-import {LeadsModel} from './leads.model';
+import {LeadsModel} from './products.model';
 import {Leads} from './data';
 import {DecimalPipe} from '@angular/common';
 import {debounceTime, delay, switchMap, tap} from 'rxjs/operators';
-import {SortColumn, SortDirection} from './leads-sortable.directive';
+import {SortColumn, SortDirection} from './products-sortable.directive';
 
 interface SearchResult {
   countries: LeadsModel[];

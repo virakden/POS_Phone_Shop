@@ -1,16 +1,16 @@
 // import {Country} from './invoice.model';
 
-const Customers =  [
-  {
-    employeeName: "Mary Cousar",
-    img: 'assets/images/users/avatar-2.jpg',
-    employeeEmail: "Sell",
-    employeeTelephone: "580-464-4694",
-    joinDate: "06 Apr, 2021",
-    status: "Active",
-    // statusClass: "success",
-    isSelected:false
-  },
+// const Customers =  [
+//   {
+//     employeeName: "Mary Cousar",
+//     img: 'assets/images/users/avatar-2.jpg',
+//     employeeEmail: "Sell",
+//     employeeTelephone: "580-464-4694",
+//     joinDate: "06 Apr, 2021",
+//     status: "Active",
+//     // statusClass: "success",
+//     isSelected:false
+//   },
 //   {
 //     name: "Jeff Taylor",
 //     img: 'assets/images/users/avatar-3.jpg',
@@ -122,6 +122,6 @@ const Customers =  [
 //     statusClass: "success",
 //     isSelected:false
 //   },
-];
+// ];
 
-export { Customers };
+// export { Customers };

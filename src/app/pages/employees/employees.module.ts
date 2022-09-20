@@ -1,5 +1,8 @@
+
 import { DialogService } from 'primeng/dynamicdialog';
 import { SharedService } from 'src/app/shared/shared.service';
+
+
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -12,19 +15,20 @@ import { NgxSliderModule } from '@angular-slider/ngx-slider';
 
 // Drop Zone
 import { DropzoneModule } from 'ngx-dropzone-wrapper';
-import { DROPZONE_CONFIG } from 'ngx-dropzone-wrapper';
 import { DropzoneConfigInterface } from 'ngx-dropzone-wrapper';
 
 // Simplebar
 import { SimplebarAngularModule } from 'simplebar-angular';
 
 // Component pages
-import { EmployeeRoutingModule } from "./employees-routing.module";
-import { SharedModule } from '../../shared/shared.module';
+
 import { EmployeesComponent } from './employee/employees.component';
+
+import { SharedModule } from '../../shared/shared.module';
 
 // Flat Picker
 import { FlatpickrModule } from 'angularx-flatpickr';
+import { EmployeeRoutingModule } from './employees-routing.module';
 
 
 
@@ -42,8 +46,8 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    EmployeeRoutingModule,
     NgbDropdownModule,
+    EmployeeRoutingModule,
     NgbPaginationModule,
     NgbTypeaheadModule,
     NgbProgressbarModule,
@@ -59,4 +63,5 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     DialogService
   ]
 })
-export class EmployeeModule { }
+
+export class EmployeeModules { }

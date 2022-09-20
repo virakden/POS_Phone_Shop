@@ -10,9 +10,9 @@ import { FlatpickrModule } from 'angularx-flatpickr';
 import { NgSelectModule } from '@ng-select/ng-select';
 
 // Component pages
-import { CRMRoutingModule } from './crm-routing.module';
+import { CRMRoutingModule } from './product-routing.module';
 import { SharedModule } from '../../shared/shared.module';
-import { LeadsComponent } from './list/leads.component';
+import { ProductsComponent } from './list/products.component';
 import { AddProductComponent } from './add-product/add-product.component';
 import { CreateComponent } from './adjust/create.component';
 
@@ -33,7 +33,7 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
 
 @NgModule({
   declarations: [
-    LeadsComponent,
+    ProductsComponent,
     AddProductComponent,
     CreateComponent,
   ],

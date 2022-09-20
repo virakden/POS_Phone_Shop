@@ -7,21 +7,21 @@ import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 // Sweet Alert
 import Swal from 'sweetalert2';
 
-import { LeadsModel } from './leads.model';
+import { LeadsModel } from './products.model';
 import { Leads } from './data';
-import { LeadsService } from './leads.service';
-import { NgbdLeadsSortableHeader, SortEvent } from './leads-sortable.directive';
+import { LeadsService } from './products.service';
+import { NgbdLeadsSortableHeader, SortEvent } from './products-sortable.directive';
 
 @Component({
-  selector: 'app-leads',
-  templateUrl: './leads.component.html',
-  styleUrls: ['./leads.component.scss'],
+  selector: 'app-products',
+  templateUrl: './products.component.html',
+  styleUrls: ['./products.component.scss'],
   providers: [LeadsService, DecimalPipe]
 })
 /**
  * Leads Component
  */
-export class LeadsComponent {
+export class ProductsComponent {
 
   // bread crumb items
   breadCrumbItems!: Array<{}>;
