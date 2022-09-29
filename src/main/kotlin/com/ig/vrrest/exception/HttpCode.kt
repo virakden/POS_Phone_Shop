@@ -1,4 +1,4 @@
-package com.ig.vrrest.excception
+package com.ig.vrrest.exception
 
 enum class HttpCode(val value: Int, val reasonPhrase: String) {
     BAD_REQUEST(400, "Bad Request"),

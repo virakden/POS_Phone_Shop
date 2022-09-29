@@ -9,10 +9,13 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
+import org.springframework.http.ResponseEntity
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
+import java.time.LocalDateTime
 import javax.persistence.criteria.Predicate
+import javax.servlet.http.HttpServletRequest
 
 @Service
 class EmployeeServiceImpl : EmployeeService {
@@ -24,7 +27,7 @@ class EmployeeServiceImpl : EmployeeService {
 
     override fun addEmployee(employee: Employee): Employee {
         employee.password = bCryptPasswordEncoder.encode(employee.password)
-        return employeeRepository.save(employee)
+        return employeeRepository.save( employee )
     }
 
     override fun findById(id: Long): Employee? {
@@ -32,7 +35,7 @@ class EmployeeServiceImpl : EmployeeService {
     }
 
     override fun findAll(): List<Employee>? {
-        return employeeRepository.findAllByStatusTrue()
+        return employeeRepository.findAll()
     }
 
     override fun findByList(word: String?, page: Int, size: Int): Page<Employee>? {
@@ -49,24 +52,36 @@ class EmployeeServiceImpl : EmployeeService {
         }, PageRequest.of(page, size, Sort.by(Sort.Direction.ASC, "id")))
     }
 
-    override fun updateEmployee(employee: Employee): Employee? {
-        val oldEmployee = findById(employee.id!!)
+    override fun updateEmployee( id: Long, employee: Employee): Employee? {
+        val oldEmployee = employeeRepository.findById(id).get()
         oldEmployee?.employeeName = employee.employeeName
         oldEmployee?.employeeTelephone = employee.employeeTelephone
-
-        return employeeRepository.save(oldEmployee!!)
+        oldEmployee?.status = employee.status
+        return employeeRepository.save(oldEmployee)
     }
 
     override fun deleteEmployee(id: Long): Employee? {
         return employeeRepository.deleteByIdAndStatusTrue(id)
     }
 
-    @Value("\${image.path}")
-    val imageFile: String? = null
-    override fun uploadImage(id: Long, image: MultipartFile): Employee {
-        val originatingEmployeeName = FileUpload.storeImage(image, imageFile!!)
-        val employee = employeeRepository.findByIdAndStatusTrue(id)
-        employee!!.profilePhoto = originatingEmployeeName
-        return employeeRepository.save(employee)
-    }
+
+
+//    @Value("\${image.path.empl}")
+//    val imageFile: String? = null
+//    override fun uploadImage(id: Long, image: MultipartFile): Employee {
+//        val originatingEmployeeName = FileUpload.storeImage(image, imageFile!!)
+//        println("originatingEmployeeName:"+originatingEmployeeName)
+//        val employee = employeeRepository.findByIdAndStatusTrue(id)
+//        employee!!.profilePhoto = originatingEmployeeName
+//        return employeeRepository.save(employee)
+//    }
+//
+//    override fun getImageById(fileName: String,  request: HttpServletRequest): ResponseEntity<*>? {
+//        return try {
+//            FileUpload.getFile(fileName, imageFile!!, request, true)
+//        } catch (ex: Exception) {
+//            println(""+ex)
+//            null
+//        }
+//    }
 }

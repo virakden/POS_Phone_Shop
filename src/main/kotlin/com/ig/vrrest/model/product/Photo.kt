@@ -11,6 +11,7 @@ class Photo (
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = 0,
     var photoName: String?= null,
+    var photoPath: String? = null,
 
     @JsonIgnoreProperties("hibernateLazyInitializer", "handler")
     @JsonIgnore

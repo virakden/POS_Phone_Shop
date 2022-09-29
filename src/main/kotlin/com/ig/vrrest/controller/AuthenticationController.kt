@@ -1,8 +1,8 @@
 package com.ig.vrrest.controller
 
 import com.ig.vrrest.base.response.ResponseObjectMap
-import com.ig.vrrest.excception.CustomException
-import com.ig.vrrest.excception.HttpCode
+import com.ig.vrrest.exception.CustomException
+import com.ig.vrrest.exception.HttpCode
 import com.ig.vrrest.model.request.JwtRequest
 import com.ig.vrrest.security.UserPrincipal
 import com.ig.vrrest.services.JwtUserDetailsService
@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping(AppConstant.MAIN_PATH)
+@CrossOrigin
 class AuthenticationController{
 
     @Autowired

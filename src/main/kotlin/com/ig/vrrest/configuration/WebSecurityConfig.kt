@@ -62,12 +62,15 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
     override fun configure(web: WebSecurity) {
         web.ignoring().antMatchers(
             "/v2/api-docs",
+            "api/authenticate/**",
             "/configuration/ui",
             "/swagger-resources/**",
             "/configuration/security",
             "/swagger-ui.html",
             "/webjars/**",
-            "/resources/**"
+            "/resources/**",
+//            "/**"
+
         )
     }
 
@@ -77,17 +80,19 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
          * We don't need CSRF for this example
          */
         httpSecurity.csrf().disable()
-            .cors().and()
-            /*dont authenticate this particular request */
+            .cors().configurationSource(corsConfigurationSource())
+            .and()
             .authorizeRequests()
+            /*dont authenticate this particular request */
             .antMatchers(
                 AppConstant.MAIN_PATH + "/authenticate",
-                AppConstant.MAIN_PATH + "/change-password/**",
-                AppConstant.MAIN_PATH + "/forgot-password"
+//                AppConstant.MAIN_PATH + "/change-password/**",
+//                AppConstant.MAIN_PATH + "/forgot-password"
             )
             .permitAll()
             /* role permission of authenticate use access */
-            .antMatchers("/v1/api/**").hasAuthority("ROLE_ADMIN")
+            .antMatchers("/v1/api/**").permitAll()
+//            .hasAuthority("ROLE_ADMIN")
             /* all other requests need to be authenticated */
             .anyRequest().authenticated().and()
             /*
@@ -106,7 +111,7 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
     @Bean
     fun corsConfigurationSource(): CorsConfigurationSource? {
         val configuration = CorsConfiguration()
-        configuration.allowedOrigins = listOf("http://localhost:4200", "http://localhost:4300", "https://mms-uat.amkcambodia.com")
+//        configuration.allowedOrigins = listOf("http://localhost:4200", "http://localhost:4300")
         configuration.allowedMethods = listOf("GET", "POST", "PUT", "DELETE", "OPTIONS")
         configuration.allowCredentials = true
 

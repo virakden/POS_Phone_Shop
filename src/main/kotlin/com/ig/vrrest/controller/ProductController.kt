@@ -6,7 +6,6 @@ import com.ig.vrrest.services.ProductService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-import org.springframework.web.multipart.MultipartHttpServletRequest
 import javax.servlet.http.HttpServletRequest
 
 @RestController
@@ -19,12 +18,12 @@ class ProductController {
     @Autowired
     lateinit var responseObjectMap: ResponseObjectMap
 
-//    @PostMapping
-//    fun addProduct(@RequestBody product: Product): Product? {
-//        return productService.addNew(product)
-//    }
-
     @PostMapping
+    fun addProduct(@RequestBody product: Product): Product? {
+        return productService.addNew(product)
+    }
+
+    @PostMapping("/add-more")
     fun addProduct (@RequestBody product: List<Product>): List<Product>? {
         return productService.addMore(product)
     }
@@ -41,26 +40,16 @@ class ProductController {
         return responseObjectMap.responseObject(data!!.content, data.totalElements)
     }
 
-    @PutMapping("/update")
-    fun updateProduct(@RequestBody id: Long, t: Product): Product? = productService.updateObj(id,t)
-
-    @PutMapping("/upLoadPhoto/{id}")
-//    fun uploadPhoto(@PathVariable id: Long, image: MutableList<ImageRequest>): MutableMap<String, Any>? =
-//        responseObjectMap.responseObject(productService.uploadImage(id, image)
-//    )
-    fun uploadPhoto(@PathVariable id: Long, amountImage: Int, image: MultipartHttpServletRequest
-    ): MutableMap<String, Any>? =
-        responseObjectMap.responseObject(productService.uploadImage(id, amountImage, image)
-    )
-
-
-    @GetMapping("/image/{image}")
-    fun getImage(@PathVariable image: String, request: HttpServletRequest): ResponseEntity<*>? {
-        return productService.getImageById(image , request)
+    @PutMapping("/update/{id}")
+    fun updateProduct(@PathVariable id: Long, @RequestBody t: Product): MutableMap<String, Any> {
+        return responseObjectMap.responseObject(productService.updateObj(id, t))
     }
 
 
-
+//    @GetMapping("/image/{image}")
+//    fun getImage(@PathVariable image: String, request: HttpServletRequest): ResponseEntity<*>? {
+//        return productService.getImageById(image , request)
+//    }
 
 
 }

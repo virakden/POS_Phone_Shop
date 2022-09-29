@@ -1,11 +1,11 @@
 package com.ig.vrrest.utils
 
-import com.ig.vrrest.excception.CustomException
-import com.ig.vrrest.excception.HttpCode
+import com.ig.vrrest.exception.CustomBadRequestException
+import com.ig.vrrest.exception.CustomNotAcceptableException
+import com.ig.vrrest.exception.CustomNotFoundException
 import com.ig.vrrest.model.response.FileUploadResponse
 import org.springframework.core.io.Resource
 import org.springframework.core.io.UrlResource
-import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.multipart.MultipartFile
@@ -24,83 +24,124 @@ class FileUpload {
     /**
      * Can call class to using anywhere like singleton
      */
-    companion object {
+    companion object{
 
-        fun storeImage(file: MultipartFile, filePath: String): String {
-            val path = Paths.get(filePath).toAbsolutePath().normalize()
-            val directory = File(path.toString())
-            if (!directory.exists()) {
+        fun storeImage(file: MultipartFile, filePath:String):FileUploadResponse?
+        {
+            var path = Paths.get(filePath).toAbsolutePath().normalize()
+            var directory = File(path.toString())
+
+            if(!directory.exists())
+            {
                 directory.mkdirs()
             }
-
-//            to connect path name with file name (random new file name) with date of upload image
             val extension = file.originalFilename.toString()
             val sub = extension.substring(extension.lastIndexOf("."))
-            val formatter = SimpleDateFormat("yyyy-MM-dd-HHmmss")
-            val nameFile = UUID.randomUUID().toString().plus(formatter.format(Date()).toString()).plus(sub)
-
+            var formatter = SimpleDateFormat("yyyy_MM_dd_HH_mm_ss")
+            var nameFile= UUID.randomUUID().toString().plus(formatter.format(Date()).toString().plus(sub))
             try {
-                Files.copy(file.inputStream, path.resolve(nameFile), StandardCopyOption.REPLACE_EXISTING)
-            } catch (e: IOException) {
-                return null.toString()
+                Files.copy(file.inputStream,path.resolve(nameFile), StandardCopyOption.REPLACE_EXISTING)
+            }catch (io: IOException)
+            {
+                println("exception image file"+ io)
+            }
+
+            return FileUploadResponse(nameFile,extension,filePath,file.size)
+        }
+        fun storeFile(file: MultipartFile, filePath: String):String?{
+            val path = Paths.get(filePath).toAbsolutePath().normalize()
+            val directory = File(path.toString())
+            if(!directory.exists())
+            {
+                directory.mkdirs()
+            }
+            val extension = "_"+ file.originalFilename.toString()
+            val formatter= SimpleDateFormat("yyyy_MM_dd_HH_mm_ss")
+            val nameFile= formatter.format(Date().toString().plus(extension))
+            try {
+                Files.copy(file.inputStream,path.resolve(nameFile), StandardCopyOption.REPLACE_EXISTING)
+            }catch (io: IOException)
+            {
+                println("Hi I'm Exception File"+io)
             }
             return nameFile
         }
 
-        fun getFile(
+        fun storeImage(file: MultipartFile, filePath: String, fileName:String):String?{
+            var path= Paths.get(filePath).toAbsolutePath().normalize()
+            var directory= File(path.toString())
+            if(!directory.exists())
+            {
+                directory.mkdirs()
+            }
+
+            try {
+                Files.copy(file.inputStream,path.resolve(fileName), StandardCopyOption.REPLACE_EXISTING)
+            }catch (io: IOException)
+            {
+                println("Hi i'm exception Image file"+io)
+            }
+
+            return fileName
+        }
+
+        fun removeImage(fileName: String, fileProperty: String): Boolean {
+            try {
+                val path = Paths.get(fileProperty).toAbsolutePath().normalize()
+                val filePath = path.resolve(fileName).normalize()
+                val file = File(filePath.toString())
+
+                println("hhhhhhhhhhhh")
+                return if (file.exists()) file.delete()
+                else false
+            } catch (ex: Exception) {
+                println(ex)
+            }
+            println("uiiiiiiiiiiiiii")
+            return false
+
+        }
+
+
+        fun loadFileImage(
             fileName: String,
             fileProperty: String,
-            request: HttpServletRequest,
-            download: Boolean
+            request: HttpServletRequest
         ): ResponseEntity<Resource> {
             try {
                 val path = Paths.get(fileProperty).toAbsolutePath().normalize()
                 val filePath = path.resolve(fileName).normalize()
-
                 val resource = UrlResource(filePath.toUri())
+
                 resource.contentLength()
 
-                if (download) {
-                    val contentType = request.servletContext.getMimeType(resource.file.absolutePath)
-                        ?: "application/octet-stream"
-                    return ResponseEntity.ok()
-                        .contentType(MediaType.parseMediaType(contentType))
-                        .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.filename + "\"")
-                        .body(resource)
-                }
-
                 val contentType = request.servletContext.getMimeType(resource.file.absolutePath)
-                    ?: throw CustomException(HttpCode.NOT_ACCEPTABLE, "Invalid file type.")
+                    ?: throw CustomNotAcceptableException("Invalid file type.")
                 return ResponseEntity.ok()
                     .contentType(MediaType.parseMediaType(contentType))
                     .body(resource)
             } catch (e: MalformedURLException) {
-                throw CustomException(HttpCode.BAD_REQUEST, e.message!!)
+                throw CustomBadRequestException(e.message!!)
             } catch (e: IOException) {
-                throw CustomException(HttpCode.NOT_FOUND, "File not found.")
+                throw CustomNotFoundException("File not found.")
             }
         }
-
-        fun storeFileImage(pathFile: String, file: MultipartFile): FileUploadResponse? {
-            val fileStorage = storeImage(file, pathFile)
-            return FileUploadResponse("${pathFile.substring(1)}${fileStorage}", fileStorage)
-        }
     }
 
-    fun storeImage(file:MultipartFile,filePath:String, fileName: String): String {
-        val path = Paths.get(filePath).toAbsolutePath().normalize()
-        val directory = File(path.toString())
-        if (!directory.exists()) {
-            directory.mkdirs()
-        }
-
-        try {
-            Files.copy(file.inputStream, path.resolve(fileName), StandardCopyOption.REPLACE_EXISTING)
-        } catch (e: IOException) {
-            return null.toString()
-        }
-        return fileName
-    }
+//    fun storeImage(file:MultipartFile,filePath:String, fileName: String): String {
+//        val path = Paths.get(filePath).toAbsolutePath().normalize()
+//        val directory = File(path.toString())
+//        if (!directory.exists()) {
+//            directory.mkdirs()
+//        }
+//
+//        try {
+//            Files.copy(file.inputStream, path.resolve(fileName), StandardCopyOption.REPLACE_EXISTING)
+//        } catch (e: IOException) {
+//            return null.toString()
+//        }
+//        return fileName
+//    }
 
 
 }

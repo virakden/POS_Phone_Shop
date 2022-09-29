@@ -11,27 +11,26 @@ class WebMvcConfigurerAdapter: WebMvcConfigurer {
 
     val resourcesLocation = arrayOf("classpath:/META-INF/resources/", "classpath:/resources/", "classpath:/public/")
 
+
     override fun configureContentNegotiation(configurer: ContentNegotiationConfigurer) {
-        configurer.favorParameter(true)
+        configurer.favorPathExtension(false).
+        favorParameter(true)
             .defaultContentType(MediaType.APPLICATION_JSON)
             .mediaType("xml", MediaType.APPLICATION_XML)
     }
 
     override fun addResourceHandlers(registry: ResourceHandlerRegistry) {
-        registry.addResourceHandler("/**")
-                .addResourceLocations(*resourcesLocation)
+        registry.addResourceHandler("/")
+            .addResourceLocations(*resourcesLocation)
 
-//        registry.addResourceHandler("/**")
+//        registry.addResourceHandler("/")
 //                .addResourceLocations("classpath:/static/")
 //                .setCacheControl(CacheControl.maxAge(100, TimeUnit.DAYS)) //cached 100 days
     }
 
     override fun addCorsMappings(registry: CorsRegistry) {
         registry.addMapping("/**")
-            .allowedOriginPatterns("*")
-            .allowedOrigins("http://localhost:4300", "https://mms-uat.amkcambodia.com")
-            .allowedMethods("GET", "POST", "PUT")
-            .allowCredentials(false)
+            .allowedMethods("POST", "GET", "PUT")
     }
 
     override fun addViewControllers(registry: ViewControllerRegistry) {

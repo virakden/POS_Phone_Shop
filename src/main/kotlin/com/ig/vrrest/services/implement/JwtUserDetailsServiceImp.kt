@@ -2,13 +2,12 @@ package com.ig.vrrest.services.implement
 
 import com.ig.vrrest.services.JwtUserDetailsService
 import com.ig.vrrest.base.response.ResponseObjectMap
-import com.ig.vrrest.excception.CustomException
-import com.ig.vrrest.excception.HttpCode
+import com.ig.vrrest.exception.CustomException
+import com.ig.vrrest.exception.HttpCode
 import com.ig.vrrest.model.employeeSale.Employee
 import com.ig.vrrest.repository.EmployeeRepository
 import com.ig.vrrest.security.UserPrincipal
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.BadCredentialsException
 import org.springframework.security.authentication.DisabledException

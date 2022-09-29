@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface EmployeeRepository: BaseRepository<Employee> {
-    fun findAllByStatusTrue(): List<Employee>?
+//    fun findAllByStatusTrue(): List<Employee>?
     fun deleteByIdAndStatusTrue(id: Long): Employee?
     fun findByEmployeeEmailAndStatusTrue(emailEmployee: String): Employee?
 }
