@@ -3,15 +3,15 @@ import { Routes, RouterModule } from '@angular/router';
 
 // Component pages
 
-import { ProductsComponent } from "./list/products.component";
+import { listStockComponent } from "./list/listStock.component";
 import { AddProductComponent } from './add-product/add-product.component';
-import { CreateComponent } from "./adjust/create.component";
+import { AdjustmentComponent } from "./adjust/adjustment.component";
 
 
 const routes: Routes = [
   {
     path: "list",
-    component: ProductsComponent
+    component: listStockComponent
   },
   {
     path: "add-product",
@@ -19,7 +19,7 @@ const routes: Routes = [
   },
   {
     path:"adjust",
-    component: CreateComponent
+    component: AdjustmentComponent
   },
 
 ];
@@ -28,4 +28,4 @@ const routes: Routes = [
     imports: [RouterModule.forChild(routes)],
     exports: [RouterModule]
 })
-export class CRMRoutingModule {}
+export class StockRoutingModule {}

@@ -247,11 +247,11 @@ export class BaseComponent  {
         this.service.create(obj).subscribe(
             (res: any) => {
                 console.log(res);
-                
-             
             }
         );
     }
+
+    
 
     save(obj: any) {
         this.sharedService.showLoading(true);

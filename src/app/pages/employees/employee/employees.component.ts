@@ -1,7 +1,10 @@
+import { Login } from './../../../core/models/auth.models';
+import { HttpHandler, HttpClient } from '@angular/common/http';
+import { NgbdLeadsSortableHeader } from 'src/app/core/base/base.directive';
 import { EmployeeModules } from './../employees.module';
 import { SharedService } from './../../../shared/shared.service';
 import { BaseComponent } from './../../../core/base/base.component';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChildren, QueryList } from '@angular/core';
 import { DialogService } from 'primeng/dynamicdialog';
 import { FormGroup, FormBuilder } from '@angular/forms';
 
@@ -12,12 +15,15 @@ import { EmployeeService } from './employees.service';
 import { Router } from '@angular/router';
 import { BehaviorSubject, of, Observable } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AdvancedService } from '../../home/products/products.service';
+import { DecimalPipe } from '@angular/common';
 
 
 @Component({
   selector: 'app-employees',
   templateUrl: './employees.component.html',
   styleUrls: ['./employees.component.scss'],
+  providers: [AdvancedService, DecimalPipe]
 })
 
 
@@ -39,59 +45,82 @@ export class EmployeesComponent extends BaseComponent implements OnInit {
   display = false;
   employeeHave = false;
   employeeNotExist = false;
+  fileUploaded: any;
+  imagePath!: String;
+  urlLink: any = 'assets/images/users/user-dummy-img.jpg';
+  objs: any;
   startIndex = 0;
-  endIndex = 5;
+  endIndex = 3;
   totalRecord!: number;
   pages = 1
-  pageSize = 5
+  pageSize = 3
   private _total$ = new BehaviorSubject<number>(0);
   total$?: Observable<number>;
+  public Storage= "http://localhost:8080/v1/employee/image/";
+
+    // Table data
+    staff$!: Observable<employeeModel[]>;
+    // total$: Observable<number>;
+    @ViewChildren(NgbdLeadsSortableHeader) headers!: QueryList<NgbdLeadsSortableHeader>;
+  
 
   get totals$() { return this._total$.asObservable(); }
   constructor(
+    public http: HttpClient,
     public shared: SharedService,
     public override fb: FormBuilder,
     public override service: EmployeeService,
     private route: Router,
     private modalService: NgbModal,
-    public dialogService: DialogService
+    public dialogService: DialogService,
+    
 
   ) {
     super();
     this.sharedService = shared;
     this.initCreateForm();
+    this.staff$ = service.data$;
     this.total$ = this.totals$
 
   }
 
   ngOnInit(): void {
     // this.getObjList();
+  
     this.getEmp();
-    console.log('ts:', this.total$);
+    // console.log('ts:', this.total$);
+    this.initCreateForm();
   }
+
+
 
   initCreateForm() {
     this.employeeForm = this.fb.group({
+      id: null,
       employeeName: [null],
       employeeEmail: [null],
       employeeTelephone: [null],
+      joinDate:[null],
       profilePhoto: [null],
       password: [null],
+      status: [null]
     });
   }
 
-  /**
-* Open modal
-* @param content modal content
-*/
-  openModal(content: any) {
+
+
+  openModal(add: any) {
+
     this.submitted = false;
-    this.modalService.open(content, { size: 'md', centered: true });
+    this.employeeForm.reset();
+    this.modalService.open(add, { size: 'md', centered: true });
   }
 
-  editModal(content: any) {
-    this.submitted = false;
-    this.modalService.open(content, { size: 'md', centered: true });
+
+  editModal(edit: any,emp: any) {
+    this.employeeForm.patchValue(emp)
+    // this.submitted = false;
+    this.modalService.open(edit, { size: 'md', centered: true });
   }
 
   done() {
@@ -101,6 +130,8 @@ export class EmployeesComponent extends BaseComponent implements OnInit {
   getEmp() {
     this.service.getObj().subscribe(res => {
       this.Empl = res.results
+      console.log('Empl',this.Empl);
+      
       // this.ngOnInit();
       this._total$.next(this.Empl.length)
       this.totalRecord = this.Empl.length
@@ -116,7 +147,59 @@ export class EmployeesComponent extends BaseComponent implements OnInit {
       return of(this.Empl)
 
     })
+  }
 
+ onSave(formObj: any) {
+    this.objs = formObj;
+    this.objs.profilePhoto = this.imagePath;
+   
+    
+    this.service.create(this.objs).subscribe(
+      (res: any) => {``
+        this.service.uploadImageProfile(res.id,this.objs.profilePhoto).subscribe(res=>{
+          console.log('res image:', res);
+          
+        })
+        this.ngOnInit();
+      });
+      
+
+
+      this.modalService.dismissAll();
+  }
+
+  onEdit(object: any) {
+    // console.log(object.employeeEmail);
+    this.service.updateObj(object).subscribe(
+        (res: any) => {
+            console.log(res);
+            this.ngOnInit();
+        }
+    ); 
+   
+    this.modalService.dismissAll();
+  
+  }
+
+
+
+  /**
+   * Upload Image
+   */
+   onSelectFile(event: any ) {
+    if (event.target.files && event.target.files[0]){
+      const reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]);
+      // tslint:disable-next-line:no-shadowed-variable
+      reader.onload = (event) => {
+        // @ts-ignore
+        this.urlLink = event.target.result
+        // console.log('pic',this.urlLink);
+        // this.f.controls["profilePhoto"] = this.urlLink
+      };
+    }
+    this.fileUploaded = event.target.files[0];
+    this.imagePath = this.fileUploaded.name
   }
 
   override showViewForm(obj: any) {

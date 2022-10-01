@@ -1,0 +1,234 @@
+<!-- Start Breadcrumbs -->
+<app-breadcrumbs title="Stocks" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<!-- End Breadcrumbs -->
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card" id="leadsList">
+            <div class="card-header border-0">
+                <div class="row g-4 align-items-center">
+                    <div class="col-sm-3">
+                        <div class="search-box">
+                            <input type="text" name="searchTerm" class="form-control" placeholder="Search for..."
+                                [(ngModel)]="service.searchTerm" />
+                            <i class="ri-search-line search-icon"></i>
+                        </div>
+                    </div>
+                    <div class="col-sm-auto ms-auto">
+                        <div class="hstack gap-2">
+                            <div>
+                                <a routerLink="/stocks/add-product" class="btn btn-success"><i
+                                        class="ri-add-line align-bottom me-1"></i> Add Product</a>
+                            </div>
+                            <div>
+                                <a routerLink="/stocks/adjust" class="btn btn-info"><i
+                                        class="ri-add-line align-bottom me-1"></i> Stock Adjustment</a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div>
+                    <div class="table-responsive table-card ">
+                        <table class="table">
+                            <thead>
+                                <tr class="bg-light text-muted col-lg-5">
+                                    <th class="sort" data-sort="id">No</th>
+                                    <th class="sort" data-sort="productName_name">Product Name</th>
+                                    <th class="sort" data-sort="brand">Brand</th>
+                                    <th class="sort" data-sort="category">Category</th>
+                                    <th class="sort" data-sort="action">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let data of ProductData">
+                                    <td>
+                                        <ngb-highlight [result]="data.id" [term]="service.searchTerm"></ngb-highlight>
+                                    </td>
+                                    <td>
+                                        <ngb-highlight [result]="data.productName" [term]="service.searchTerm">
+                                        </ngb-highlight>
+                                    </td>
+                                    <td>
+                                        <ngb-highlight [result]="data.brand" [term]="service.searchTerm">
+                                        </ngb-highlight>
+                                    </td>
+                                    <td>
+                                        <ngb-highlight [result]="data.category" [term]="service.searchTerm">
+                                        </ngb-highlight>
+                                    </td>
+                                    <td>
+                                        <div class="dropdown" ngbDropdown>
+                                            <button class="btn btn-soft-secondary btn-sm dropdown arrow-none"
+                                                type="button" data-bs-toggle="dropdown" aria-expanded="false"
+                                                ngbDropdownToggle>
+                                                <i class="ri-more-fill align-middle"></i>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
+                                                <!-- <li><a class="dropdown-item" href="tickets/details"><i class="ri-eye-fill align-bottom me-2 text-muted"></i> View</a></li> -->
+                                                <li><a class="dropdown-item edit-item-btn" data-bs-toggle="modal"
+                                                        (click)="editModal(edit, data)"><i
+                                                            class="ri-pencil-fill align-bottom me-2 text-muted"></i>
+                                                        Edit</a></li>
+                                                <li>
+                                                    <a class="dropdown-item remove-item-btn" data-bs-toggle="modal"
+                                                        (click)="confirm()">
+                                                        <i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i>
+                                                        Delete
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                    <!-- <td class="stock_avai">
+                                        <span
+                                            class="badge bg-danger-ms-1"
+                                            *ngFor="let tag of data.stock_avai"
+                                            >{{ tag }}</span
+                                        >
+                                    </td> -->
+                                    <!-- <td class="priority"><span class="badge bg-{{data.priorityClass}} text-uppercase">{{data.priority}}</span></td> -->
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="row justify-content-md-between align-items-md-center mt-3">
+                        <div class="col col-sm-6">
+                            <div class="dataTables_info mb-2" id="tickets-table_info" role="status" aria-live="polite">
+                                Showing
+                                {{ startIndex }} to 
+                                {{ endIndex }} of {{totalRecord}}
+                                
+                            </div>
+                        </div>
+                        <!-- Pagination -->
+                        <div class="col col-sm-6">
+                            <div class="text-sm-right float-sm-end listjs-pagination">
+                                <ngb-pagination [collectionSize]="(total$ | async)!" (pageChange)="done()" [(page)]="pages"
+                                    [pageSize]="pageSize">
+                                </ngb-pagination>
+                            </div>
+                        </div>
+                        <!-- End Pagination -->
+                    </div>
+                </div>
+
+                <!-- start edit product  -->
+                <ng-template #edit role="document" let-modal>
+                    <div class="modal-header p-3 bg-soft-info">
+                        <h5 class="modal-reason" id="exampleModalLabel">Edit Report</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                            id="close-modal" (click)="modal.dismiss('Cross click')"></button>
+                    </div>
+                    <form (ngSubmit)="onEdit(productsForm.value)" [formGroup]="productsForm">
+
+                        <div class="modal-body">
+                            <div class="row g-3">
+                                <div class="col-lg-12">
+                                    <div id="modal-id">
+                                        <label for="orderId" class="form-label">Reference</label>
+                                        <input type="text" id="orderId" class="form-control" placeholder="ID"
+                                            value="#AD126" readonly />
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div>
+                                        <label for="productName-field" class="form-label">Product Name</label>
+                                        <input type="text" id="productName-field" class="form-control" placeholder=" "
+                                            required formControlName="productName"
+                                            [ngClass]="{ 'is-invalid': submitted && productsForm.controls['productName'].errors }" />
+                                        <div *ngIf="submitted && productsForm.controls['productName'].errors"
+                                            class="invalid-feedback" align="left">
+                                            <div *ngIf="productsForm.controls['productName'].errors['required']">Product
+                                                Name is required</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div>
+                                        <label for="Cost-field" class="form-label">COST</label>
+                                        <input type="text" id="Cost-field" class="form-control" placeholder="$" required
+                                            formControlName="Cost"
+                                            [ngClass]="{ 'is-invalid': submitted && productsForm.controls['Cost'].errors }" />
+                                        <div *ngIf="submitted && productsForm.controls['Cost'].errors"
+                                            class="invalid-feedback" align="left">
+                                            <!-- <div *ngIf="productsForm.controls['productCost'].errors['required']">Cost is -->
+                                            required
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div>
+                                        <label for="price-field" class="form-label">PRICE</label>
+                                        <input type="text" id="price-field" class="form-control" placeholder="$"
+                                            required formControlName="price"
+                                            [ngClass]="{ 'is-invalid': submitted && productsForm.controls['price'].errors }" />
+                                        <div *ngIf="submitted && productsForm.controls['price'].errors"
+                                            class="invalid-feedback" align="left">
+                                            <!-- <div *ngIf="productsForm.controls['productPrice'].errors['required']">Price is -->
+                                            required
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div>
+                                        <label for="brnad-field" class="form-label">Brand</label>
+                                        <input type="text" id="brnad-field" class="form-control" placeholder=" "
+                                            required formControlName="brand"
+                                            [ngClass]="{ 'is-invalid': submitted && productsForm.controls['brand'].errors }" />
+                                        <div *ngIf="submitted && productsForm.controls['brand'].errors"
+                                            class="invalid-feedback" align="left">
+                                            <div *ngIf="productsForm.controls['brand'].errors['required']">Product
+                                                brand is required</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <label for="category-field" class="form-label">Category</label>
+                                    <select formControlName="category" class="form-select" name="choices-category-input"
+                                        data-choices data-choices-search-false>
+                                        <option value="SmartPhone" selected>Smart Phone</option>
+                                        <option value="SmartWatch">Smart Watch</option>
+                                        <option value="Accessories">Accessories</option>
+                                        <option value="Electronics">Tablets</option>
+                                    </select>
+                                    <div *ngIf="submitted && productsForm.controls['category'].errors"
+                                        class="invalid-feedback" align="left">
+                                        <div *ngIf="productsForm.controls['category'].errors['required']">Category To is
+                                            required</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-12">
+                                    <div>
+                                        <label>Product Description</label>
+                                        <ckeditor formControlName="description" [editor]="Editor" data="">
+                                        </ckeditor>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="modal-footer">
+                            <div class="hstack gap-2 justify-content-end">
+                                <button type="button" class="btn btn-light" data-bs-dismiss="modal"
+                                    (click)="modal.close('Close click')">Close</button>
+                                <button type="submit" class="btn btn-success" id="add-btn">Confirm</button>
+                            </div>
+                        </div>
+                    </form>
+                </ng-template>
+                <!-- end edit product -->
+
+                <!--end offcanvas-->
+            </div>
+        </div>
+    </div>
+
+    <!--end col-->
+</div>
+<!--end row-->

@@ -16,7 +16,7 @@
             <div class="d-flex gap-2">
 
               <button type="button" class="btn btn-success add-btn" data-bs-toggle="modal" id="create-btn"
-                data-bs-target="#showModal" (click)="openModal(content)"><i class="ri-add-line align-bottom me-1"></i>
+                data-bs-target="#showModal" (click)="openModal(add)"><i class="ri-add-line align-bottom me-1"></i>
                 Add Employee</button>
 
             </div>
@@ -29,12 +29,14 @@
         <form>
           <div class="row g-3">
             <div class="col-xl-6">
-              <!-- <div class="search-box">
+              <div class="search-box">
                 <input type="text" name="searchTerm" class="form-control"
-                  placeholder="Search for employeee, position, phone, status or something..."
-                 >
-                <i class="ri-search-line search-icon"></i>
-              </div> -->
+                  placeholder="Search for employeee, email, phone, status or something..."
+                  [(ngModel)]="service.searchTerm">
+                <i class="ri-search-line search-icon cursor: pointer"></i>
+              </div>
+
+
             </div>
             <!--end col-->
           </div>
@@ -62,7 +64,7 @@
                         [(ngModel)]="masterSelected" (change)="checkUncheckAll()">
                     </div>
                   </th> -->
-                  <th class="sort" data-sort="customer_name">Employee</th>
+                  <th class="sort" data-sort="employeeName">Name</th>
                   <th class="sort" data-sort="email">Email</th>
                   <th class="sort" data-sort="phone">Phone</th>
                   <th class="sort" data-sort="date">Joining Date</th>
@@ -73,11 +75,7 @@
 
               <tbody>
                 <tr *ngFor="let rowData of Empl">
-                  <td class="employeeName">
-                    <div class="d-flex align-items-center" *ngIf="rowData.profilePhoto">
-                      <img src="{{rowData.profilePhoto}}" class="avatar-xs rounded-circle me-2" alt="">
-                      {{rowData.employeeName}}
-                    </div>
+                  <!-- <td>
                     <div class="d-flex align-items-center" *ngIf="!rowData.profilePhoto">
                       <div class="flex-shrink-0 avatar-xs me-2">
                         <div class="avatar-title bg-soft-success text-success rounded-circle fs-13">
@@ -86,7 +84,17 @@
                       </div>
                       {{rowData.employeeName}}
                     </div>
+                  </td>  -->
+                  <td>
+                    <div class="d-flex align-items-center">
+                      <div class="flex-shrink-0">
+                        <img [src]="Storage+rowData.profilePhoto" alt=""
+                          class="avatar-xxs rounded-circle image_src object-cover">
+                      </div>
+                      <div class="flex-grow-1 ms-2 name">{{rowData.employeeName}}</div>
+                    </div>
                   </td>
+
                   <td>
                     <ngb-highlight [result]="rowData.employeeEmail"></ngb-highlight>
                   </td>
@@ -94,7 +102,7 @@
                     <ngb-highlight [result]="rowData.employeeTelephone"></ngb-highlight>
                   </td>
                   <td>
-                    <ngb-highlight [result]="rowData.joinDate"></ngb-highlight>
+                    <ngb-highlight [result]="rowData.joinDate | date: 'yyyy-MMM-dd' "></ngb-highlight>
                   </td>
                   <td class="status">
                     <!-- <ngb-highlight [result]="rowData.status"></ngb-highlight> -->
@@ -102,14 +110,17 @@
                     </span>
                   </td>
                   <td>
-                    
-                      <li class="list-inline-item" ngbTooltip="Edit" placement="top">
-                        <a class="text-primary d-inline-block edit-item-btn" data-bs-toggle="modal"
-                          data-bs-target="#deleteRecordModal" (click)="editModal(edit)">
-                          <i class="ri-edit-2-fill"></i>
+                    <ul class="list-inline hstack gap-2 mb-0">
+                      <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover"
+                        data-bs-placement="top" title="Edit">
+                        <a data-bs-toggle="modal" (click)="editModal(edit,rowData)"
+                          class="text-primary d-inline-block edit-item-btn">
+                          <i class="ri-pencil-fill fs-16"></i>
                         </a>
                       </li>
+                    </ul>
                   </td>
+
                 </tr>
               </tbody>
             </table>
@@ -119,8 +130,8 @@
             <div class="col col-sm-5">
               <div class="dataTables_info mb-2" id="tickets-table_info" role="status" aria-live="polite">
                 Showing
-                {{service.startIndex}} to
-                {{service.endIndex}} of {{service.totalRecords}}
+                {{startIndex}} to
+                {{endIndex}} of {{totalRecord}}
               </div>
             </div>
             <!-- Pagination -->
@@ -135,7 +146,7 @@
           </div>
         </div>
         <!-- Employee Create Model -->
-        <ng-template #content role="document" let-modal>
+        <ng-template #add role="document" let-modal>
           <div class="modal-header bg-light p-3">
             <h5 class="modal-title" id="exampleModalLabel">Add Employee</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"
@@ -144,6 +155,29 @@
 
           <form [formGroup]="employeeForm">
             <div class="modal-body">
+              <div class="text-center">
+                <div class="position-relative d-inline-block">
+                  <div class="position-absolute bottom-0 end-0">
+                    <label for="lead-image-input" class="mb-0" data-bs-toggle="tooltip" data-bs-placement="right"
+                      title="Select Image">
+                      <div class="avatar-xs cursor-pointer">
+                        <div class="avatar-title bg-light border rounded-circle text-muted">
+                          <i class="ri-image-fill"></i>
+                        </div>
+                      </div>
+                    </label>
+                    <input class="form-control d-none" formControlName="profilePhoto" id="lead-image-input"
+                      (change)="onSelectFile($event)" type="file" accept="image/png, image/gif, image/jpeg">
+                  </div>
+                  <div class="avatar-lg p-1">
+                    <div class="avatar-title bg-light rounded-circle">
+                      <img [src]="urlLink" class="avatar-md rounded-circle object-cover" />
+                    </div>
+                  </div>
+                </div>
+                <h5 class="fs-13 mt-3">Profile Employee</h5>
+              </div>
+
               <div class="mb-3">
                 <label for="employeeName-field" class="form-label">Employee Name</label>
                 <input type="text" id="employeeName-field" class="form-control" placeholder="Enter Name" required
@@ -168,7 +202,7 @@
 
               <div class="mb-3">
                 <label for="employeeTelephone-field" class="form-label">Telephone</label>
-                <input type="text" id="employeeTelephone-field" class="form-control" placeholder="Enter Phone No"
+                <input type="text" id="employeeTelephone-field" class="form-control" placeholder="Enter Phone Number"
                   required formControlName="employeeTelephone"
                   [ngClass]="{ 'is-invalid': submitted && employeeForm.controls['employeeTelephone'].errors }" />
                 <div *ngIf="submitted && employeeForm.controls['employeeTelephone'].errors" class="invalid-feedback"
@@ -177,6 +211,16 @@
                   </div>
                 </div>
               </div>
+
+              <div class="col-lg-12">
+                <div>
+                  <label for="date-field" class="form-label">Join Date</label>
+                  <input class="form-control flatpickr-input" type="text" placeholder="Select Date" mwlFlatpickr
+                    [altInput]="true" [convertModelValue]="true" [dateFormat]="'Y-m-d '" formControlName="joinDate">
+                </div>
+              </div>
+              <!--end col-->
+
 
               <div class="mb-3">
                 <label for="password-field" class="form-label">Password</label>
@@ -188,33 +232,14 @@
                   <div *ngIf="employeeForm.controls['password'].errors['required']">Password is required</div>
                 </div>
               </div>
-
-              <!-- <div class="mb-3">
-                <label for="status-field" class="form-label">Status</label>
-                <select class="form-control" data-trigger name="status-field" id="status-field" formControlName="status"
-                  [ngClass]="{ 'is-invalid': submitted && form['status'].errors }">
-                  <option value="">Status</option>
-                  <option value="Active">Active</option>
-                  <option value="Block">Close</option>
-                </select>
-                <div *ngIf="submitted && form['status'].errors" class="invalid-feedback" align="left">
-                  <div *ngIf="form['status'].errors['required']">Status is required</div>
-                </div>
-              </div> -->
-
-              <div class="mb-3">
-                <h5 class="fs-14 mb-1">Profile Picture</h5>
-                <p class="text-muted">Add Profile Picture.</p>
-                <dropzone class="dropzone_sec"></dropzone>
-                <!-- end dropzon-preview -->
-              </div>
+              <!-- end dropzon-preview -->
             </div>
 
             <div class="modal-footer">
               <div class="hstack gap-2 justify-content-end">
                 <button type="button" class="btn btn-light" data-bs-dismiss="modal"
                   (click)="modal.close('Close click')">Close</button>
-                <button type="submit" class="btn btn-success" id="add-btn" (click)="saves(employeeForm.value)">Add
+                <button type="submit" class="btn btn-success" id="add-btn" (click)="onSave(employeeForm.value)">Add
                   Employee</button>
               </div>
             </div>
@@ -222,7 +247,7 @@
         </ng-template>
         <!--End create Model -->
 
-        <!-- Employee Edit Model-->
+        <!-- Employee edit Model -->
         <ng-template #edit role="document" let-modal>
           <div class="modal-header bg-light p-3">
             <h5 class="modal-title" id="exampleModalLabel">Edit Employee</h5>
@@ -231,7 +256,32 @@
           </div>
 
           <form [formGroup]="employeeForm">
+            <input type="text" class="form-control" placeholder="Enter Name" required formControlName="id">
+
             <div class="modal-body">
+              <div class="text-center">
+                <div class="position-relative d-inline-block">
+                  <div class="position-absolute bottom-0 end-0">
+                    <label for="lead-image-input" class="mb-0" data-bs-toggle="tooltip" data-bs-placement="right"
+                      title="Select Image">
+                      <div class="avatar-xs cursor-pointer">
+                        <div class="avatar-title bg-light border rounded-circle text-muted">
+                          <i class="ri-image-fill"></i>
+                        </div>
+                      </div>
+                    </label>
+                    <input class="form-control d-none" id="lead-image-input" (change)="onSelectFile($event)" type="file"
+                      accept="image/png, image/gif, image/jpeg">
+                  </div>
+                  <div class="avatar-lg p-1">
+                    <div class="avatar-title bg-light rounded-circle">
+                      <img [src]="urlLink" class="avatar-md rounded-circle object-cover" />
+                    </div>
+                  </div>
+                </div>
+                <h5 class="fs-13 mt-3">Profile Employee</h5>
+              </div>
+
               <div class="mb-3">
                 <label for="employeeName-field" class="form-label">Employee Name</label>
                 <input type="text" id="employeeName-field" class="form-control" placeholder="Enter Name" required
@@ -246,17 +296,12 @@
               <div class="mb-3">
                 <label for="employeeEmail-field" class="form-label">Email</label>
                 <input type="email" id="employeeEmail-field" class="form-control" placeholder="Enter Email" required
-                  formControlName="employeeEmail"
-                  [ngClass]="{ 'is-invalid': submitted && employeeForm.controls['employeeEmail'].errors }" />
-                <div *ngIf="submitted && employeeForm.controls['employeeEmail'].errors" class="invalid-feedback"
-                  align="left">
-                  <div *ngIf="employeeForm.controls['employeeEmail'].errors['required']">Email is required</div>
-                </div>
+                  formControlName="employeeEmail" />
               </div>
 
               <div class="mb-3">
                 <label for="employeeTelephone-field" class="form-label">Telephone</label>
-                <input type="text" id="employeeTelephone-field" class="form-control" placeholder="Enter Phone No"
+                <input type="text" id="employeeTelephone-field" class="form-control" placeholder="Enter Phone Number"
                   required formControlName="employeeTelephone"
                   [ngClass]="{ 'is-invalid': submitted && employeeForm.controls['employeeTelephone'].errors }" />
                 <div *ngIf="submitted && employeeForm.controls['employeeTelephone'].errors" class="invalid-feedback"
@@ -266,48 +311,28 @@
                 </div>
               </div>
 
-              <div class="mb-3">
-                <label for="password-field" class="form-label">Password</label>
-                <input type="text" id="password-field" class="form-control" placeholder="Enter Password" required
-                  formControlName="password"
-                  [ngClass]="{ 'is-invalid': submitted && employeeForm.controls['password'].errors }" />
-                <div *ngIf="submitted && employeeForm.controls['password'].errors" class="invalid-feedback"
-                  align="left">
-                  <div *ngIf="employeeForm.controls['password'].errors['required']">Password is required</div>
+              <div class="col-lg-12">
+                <div>
+                  <label for="date-field" class="form-label">Join Date</label>
+                  <input class="form-control flatpickr-input" type="text" placeholder="Select Date" mwlFlatpickr
+                    [altInput]="true" [convertModelValue]="true" [dateFormat]="'Y-m-d '" formControlName="joinDate">
                 </div>
               </div>
-
-              <div class="mb-3">
-                <label for="status-field" class="form-label">Status</label>
-                <select class="form-control" data-trigger name="status-field" id="status-field" formControlName="status"
-                  [ngClass]="{ 'is-invalid': submitted && employeeForm.controls['status'].errors }">
-                  <option value="">Status</option>
-                  <option class="badge badge-soft-{{'success'}} text-uppercase" value="Active">Active</option>
-                  <option class="badge badge-soft-{{'danger'}} text-uppercase" value="Block">Close</option>
-                </select>
-                <div *ngIf="submitted && employeeForm.controls['status'].errors" class="invalid-feedback" align="left">
-                  <div *ngIf="employeeForm.controls['status'].errors['required']">Status is required</div>
-                </div>
-              </div>
-
-              <!-- <div class="mb-3">
-                <h5 class="fs-14 mb-1">Profile Picture</h5>
-                <p class="text-muted">Add Profile Picture.</p>
-                <dropzone class="dropzone_sec"></dropzone>
-              </div> -->
+              <!--end col-->
             </div>
 
             <div class="modal-footer">
               <div class="hstack gap-2 justify-content-end">
                 <button type="button" class="btn btn-light" data-bs-dismiss="modal"
                   (click)="modal.close('Close click')">Close</button>
-                <button type="submit" class="btn btn-success" id="add-btn" (click)="saves(employeeForm.value)">Save
+                <button type="submit" class="btn btn-success" id="add-btn" (click)="onEdit(employeeForm.value)">Edit
                   Employee</button>
               </div>
             </div>
           </form>
         </ng-template>
-        <!--End Edited empoyee Model -->
+        <!--End edit Model -->
+
       </div>
     </div>
   </div>

@@ -24,7 +24,7 @@ const routes: Routes = [
       path: 'tasks', loadChildren: () => import('./tasks/tasks.module').then(m => m.TasksModule)
     },
     {
-      path: 'stocks', loadChildren: () => import('./stocks/product.module').then(m => m.CrmModule)
+      path: 'stocks', loadChildren: () => import('./stocks/stocks.module').then(m => m.StockModule)
     },
     {
       path: 'crypto', loadChildren: () => import('./crypto/crypto.module').then(m => m.CryptoModule)

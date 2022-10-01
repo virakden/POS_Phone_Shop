@@ -1,3 +1,4 @@
+import { StockModule } from './stocks/stocks.module';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
@@ -57,7 +58,8 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     SwiperModule,
     LightboxModule,
     DashboardsModule,
-    EcommerceModule
+    EcommerceModule,
+    StockModule
   ],
   providers: [
     {

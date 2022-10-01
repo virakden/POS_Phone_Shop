@@ -1,3 +1,4 @@
+import { FormGroup, FormBuilder } from '@angular/forms';
 import {Component, QueryList, ViewChildren} from '@angular/core';
 import {DecimalPipe} from '@angular/common';
 import {Observable} from 'rxjs';
@@ -27,13 +28,16 @@ export class ProductsComponent {
 
   // bread crumb items
   breadCrumbItems!: Array<{}>;
+  productsForm!: FormGroup;
+  ProductData!: productModel[];
+  public Storage= "http://localhost:8080/v1/image/";
   // Table data
   invoiceList$!: Observable<productModel[]>;
   total$: Observable<number>;
   @ViewChildren(NgbdProductsSortableHeader) headers!: QueryList<NgbdProductsSortableHeader>;
 
-  constructor(private modalService: NgbModal,public service: AdvancedService) {
-    this.invoiceList$ = service.countries$;
+  constructor(private modalService: NgbModal,public service: AdvancedService, private formBuilder: FormBuilder) {
+    // this.invoiceList$ = service.countries$;
     this.total$ = service.total$;
   }
 
@@ -45,6 +49,30 @@ export class ProductsComponent {
       { label: 'home' },
       { label: 'Products', active: true }
     ];
+
+    this.productsForm = this.formBuilder.group({
+        productName: [null],
+        category: [null],
+        brand: [null],
+        description: [null],
+        productCost: [null],
+        productPrice: [null]
+    });
+
+    /**
+     * fetches data
+     */
+     this._fetchData();
+  }
+
+  /**
+  * User grid data fetches
+  */
+   private _fetchData() {
+    this.service.getObj().subscribe(res => {
+    this.ProductData = res.results
+    console.log(this.ProductData)
+    })
   }
 
   /**

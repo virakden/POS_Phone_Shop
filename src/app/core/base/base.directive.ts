@@ -1,7 +1,6 @@
-import {Directive, EventEmitter, Input, Output} from '@angular/core';
-import {LeadsModel} from './products.model';
+import { Directive, Input, Output, EventEmitter } from '@angular/core';
 
-export type SortColumn = keyof LeadsModel | '';
+export type SortColumn = keyof any | '';
 export type SortDirection = 'asc' | 'desc' | '';
 const rotate: {[key: string]: SortDirection} = { 'asc': 'desc', 'desc': '', '': 'asc' };
 
@@ -28,4 +27,6 @@ export class NgbdLeadsSortableHeader {
     this.direction = rotate[this.direction];
     this.sort.emit({column: this.sortable, direction: this.direction});
   }
+
+  constructor() { }
 }

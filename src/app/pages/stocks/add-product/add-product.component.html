@@ -1,43 +1,21 @@
 <!-- Start Breadcrumbs -->
-<app-breadcrumbs
-    title="Create Product"
-    [breadcrumbItems]="breadCrumbItems"
-></app-breadcrumbs>
+<app-breadcrumbs title="Create Product" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
 <!-- End Breadcrumbs -->
 
-<div class="row">
-    <div class="col-lg-8">
-        <form>
+<!-- start create product  -->
+<form [formGroup]="productsForm">
+    <div class="row">
+        <div class="col-lg-8">
             <div class="card">
                 <div class="card-body">
                     <div class="mb-3">
-                        <label class="form-label" for="product-title-input"
-                            >Product Title</label
-                        >
-                        <input
-                            type="text"
-                            class="form-control"
-                            id="product-title-input"
-                            placeholder="Enter product title"
-                        />
+                        <label class="form-label" for="product-title-input">Product Title</label>
+                        <input type="text" class="form-control" id="product-title-input"
+                            placeholder="Enter product title" formControlName="productName" />
                     </div>
                     <div>
                         <label>Product Description</label>
-                        <ckeditor
-                            [editor]="Editor"
-                            data="
-                        <ul>
-                          <li>Display : 6.51 inches , IPS LCD, 550 nits (typ) </li>
-                          <li>Resolution : 720 x 1600 pixels, 20:9 ratio (~269 ppi density)</li>
-                          <li>Camera Main : 50MP / 2MP / 2MP</li>
-                          <li>Camera Selfie : 16MP</li>
-                          <li> Chipset: MediaTek MT6765G Helio G35 (12 nm)</li>
-                          <li>MEMORY : 64GB 4GB RAM, 128GB 6GB RAM</li>
-                          <li>BATTERY: Li-Po 5000 mAh, non-removable</li>
-                          <li>Charging	Fast charging 18W</li>
-                        </ul>
-                        "
-                        >
+                        <ckeditor formControlName="description" [editor]="Editor" data="">
                         </ckeditor>
                     </div>
                 </div>
@@ -48,142 +26,114 @@
             <div class="card">
                 <div class="card-body">
                     <div class="mb-4">
-                        <label
-                            class="form-label fs-14 mb-2"
-                            for="product-price-input"
-                            >Cost</label
-                        >
-                        <div
-                            class="input-group mb-3"
-                        >
-                            <span
-                                class="input-group-text"
-                                id="product-price-addon"
-                                >$</span
-                            >
-                            <input
-                                type="text"
-                                class="form-control"
-                                id="product-price-input"
-                                placeholder="Enter cost"
-                                aria-label="Price"
-                                aria-describedby="product-price-addon"
-                            />
+                        <label class="form-label fs-14 mb-2" for="product-price-input">Cost</label>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="product-price-addon">$</span>
+                            <input type="text" class="form-control" id="product-price-input" placeholder="Enter cost"
+                                 aria-describedby="product-price-addon"
+                                formControlName="productCost" />
                         </div>
                     </div>
                     <div class="mb-4">
-                        <label
-                            class="form-label fs-14 mb-2"
-                            for="product-price-input"
-                            >Price</label
-                        >
-                        <div
-                            class="input-group mb-3"
-                        >
-                            <span
-                                class="input-group-text"
-                                id="product-price-addon"
-                                >$</span
-                            >
-                            <input
-                                type="text"
-                                class="form-control"
-                                id="product-price-input"
-                                placeholder="Enter price"
-                                aria-label="Price"
-                                aria-describedby="product-price-addon"
-                            />
+                        <label class="form-label fs-14 mb-2" for="product-price-input">Price</label>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="product-price-addon">$</span>
+                            <input type="text" class="form-control" id="product-price-input" placeholder="Enter price"
+                                aria-label="Price" aria-describedby="product-price-addon"
+                                formControlName="productPrice" />
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- end card -->
-
             <div class="card">
                 <div class="card-header">
                     <h5 class="card-title mb-0">Product Gallery</h5>
                 </div>
                 <div class="card-body">
-                    <div class="mb-4">
-                        <h5 class="fs-14 mb-1">Product Image</h5>
-                        <p class="text-muted">Add Product main Image.</p>
-                        <input
-                            class="form-control"
-                            id="product-image-input"
-                            type="file"
-                            accept="image/png, image/gif, image/jpeg"
-                        />
+
+                    <div class="custom-dropzone" ngx-dropzone [accept]="'image/*'" (change)="onSelect($event)">
+                        <ngx-dropzone-label>
+                            <div>
+                                <h2>My custom dropzone</h2>
+                            </div>
+                        </ngx-dropzone-label>
+                        <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files"
+                            [file]="f" [removable]="true" (removed)="onRemove(f)">
+                            <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+                        </ngx-dropzone-image-preview>
                     </div>
-                    <div>
-                        <h5 class="fs-14 mb-1">Product Gallery</h5>
-                        <p class="text-muted">Add Product Gallery Images.</p>
-                        <dropzone class="dropzone_sec"></dropzone>
-                        <!-- end dropzon-preview -->
-                    </div>
+
+                    <!-- end dropzon-preview -->
                 </div>
             </div>
-
             <!-- end card -->
             <div class="text-end mb-3">
-                <button type="submit" class="btn btn-success w-sm">
+                <button (click)="create()" class="btn btn-success w-sm">
                     Submit
                 </button>
             </div>
-        </form>
-    </div>
-    <!-- end col -->
 
-    <div class="col-lg-4">
-        <div class="card">
-            <div class="card-header">
-                <h5 class="card-title mb-0">Product Categories</h5>
-            </div>
-            <div class="card-body">
-                <p class="text-muted mb-2">
-                    <a
-                        href="javascript:void(0);"
-                        class="float-end text-decoration-underline"
-                    ></a
-                    >Select product category
-                </p>
-                <select
-                    class="form-select"
-                    name="choices-category-input"
-                    data-choices
-                    data-choices-search-false
-                >
-                    <option value="All">Smart Phone</option>
-                    <option value="Appliances">Smart Watch</option>
-                    <option value="Fashion" selected>Accessories</option>
-                    <option value="Electronics">Tablets</option>
-                </select>
-            </div>
-            <!-- end card body -->
         </div>
-        <!-- end card -->
-        
-        <div class="card">
-            <div class="card-header">
-                <h5 class="card-title mb-0">Product Brand</h5>
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Product Categories</h5>
+                </div>
+                <div class="card-body">
+                    <p class="text-muted mb-2">
+                        <a href="javascript:void(0);" class="float-end text-decoration-underline"></a>Select product
+                        category
+                    </p>
+                    <select formControlName="category" class="form-select" name="choices-category-input" data-choices
+                        data-choices-search-false>
+                        <option value="SmartPhone" selected>Smart Phone</option>
+                        <option value="SmartWatch">Smart Watch</option>
+                        <option value="Accessories">Accessories</option>
+                        <option value="Electronics">Tablets</option>
+                    </select>
+                </div>
+                <!-- end card body -->
             </div>
-            <!-- end card body -->
-            <div class="card-body">
-                <div class="mb-3">
-                    <!-- <label class="form-label" for="product-title-input"
-                        >Product T</label
-                    > -->
-                    <input
-                        type="text"
-                        class="form-control"
-                        id="product-title-input"
-                        placeholder="Enter product brand"
-                    />
+            <!-- end card -->
+
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Product Brand</h5>
+                </div>
+                <!-- end card body -->
+                <div class="card-body">
+                    <div class="mb-3">
+                        <input type="text" class="form-control" id="product-title-input"
+                            placeholder="Enter product brand" formControlName="brand" />
+                    </div>
                 </div>
             </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Stock</h5>
+                </div>
+                <!-- end card body -->
+                <div class="card-body">
+                    <div class="mb-3">
+                        <input type="text" class="form-control" id="product-title-input"
+                            placeholder="Input stock" formControlName="stock" />
+                    </div>
+                </div>
+            </div>
+            <!-- end card -->
+
         </div>
-        <!-- end card -->
-        
+        <!-- end col -->
+
     </div>
-</div>
+</form>
+<!-- end create product -->
+
+
+
+
+
 <!-- end row -->

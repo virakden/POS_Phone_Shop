@@ -4,7 +4,7 @@ export interface Response {
     message: string;
 }
 
-export interface ResponseObj<T> {
+export interface ResponseObj {
     response: Response;
-    results: T;
+    results: any;
 }

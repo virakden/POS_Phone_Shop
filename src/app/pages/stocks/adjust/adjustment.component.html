@@ -1,0 +1,70 @@
+<!-- Start Breadcrumbs -->
+<app-breadcrumbs title="Adjustment Stock" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<!-- End Breadcrumbs -->
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Update Stocks</h5>
+            </div>
+            <div class="card-body">
+                <form [formGroup]="f">
+                    <div class="row g-3">
+                        
+                            <div class="col-lg-6">
+                                <label for="productName" class="form-label">Product Name</label>
+                                <select formControlName="productName" class="form-select" name="choices-category-input" (ngModelChange)="getDes($event)">
+                                    <option *ngFor="let data of ProductData"  [value]="data |json">{{data.productName}}</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-6">
+                                <!-- <label>Description</label>
+                                <ckeditor formControlName="descript" [editor]="Editor" data="">
+                                </ckeditor> -->
+        
+                                <label for="description" class="form-label">Description</label>
+                                <textarea type="text" formControlName="descript" class="form-control"  rows="2"></textarea>
+                               
+                            </div>
+
+                        
+
+                        <!--end col-->
+                        <div class="col-lg-12">
+                            <label for="discription" class="form-label">Type</label>
+                            <select class="form-select" name="choices-category-input" data-choices
+                                data-choices-search-false>
+                                <option value="Fashion" selected>Add Stock</option>
+                                <option value="Appliances">Deduct Stock</option>
+                            </select>
+                        </div>
+
+                        <!--end col-->
+                        <div class="col-lg-12">
+                            <label for="itemPrice" class="form-label">QTY</label>
+                            <input type="text" class="form-control" id="itemPrice" placeholder="Enter qty product" />
+                        </div>
+
+                        <!--end col-->
+                        <div class="col-lg-12">
+                            <label for="reason" class="form-label">Reason</label>
+                            <textarea class="form-control" id="discription" rows="3"
+                                placeholder="Enter discription"></textarea>
+                        </div>
+
+                        <!--end col-->
+                        <div class="col-lg-12">
+                            <div class="text-end">
+                                <button class="btn btn-primary">Confirm Update</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!--end row-->
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--end col-->
+</div>
+<!--end row-->

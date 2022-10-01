@@ -1,12 +1,21 @@
 export interface productModel {
-  image: string;
-  name: string;
-  cat: string;
-  stock: string;
-  price: string;
-  order: string;
-  rating: string;
-  date: string;
-  time: string;
-  type?: any;
+    id: string;
+    productName: string;
+    productCost: string;
+    productPrice: string;
+    description: string;
+    stock: any;
+    stockAvailability: number;
+    photo: Array<{}>;
+    category: string;
+    brand: string;
+    status: boolean;
+    version: number;
+}
+
+export interface PhotosProduct {
+    id: string;
+    photoName: string;
+    status: boolean;
+    version: number;
 }

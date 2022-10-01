@@ -8,6 +8,7 @@ import { LayoutsModule} from "./layouts/layouts.module";
 import { PagesModule } from "./pages/pages.module";
 import {MessagesModule} from 'primeng/messages';
 import { ConfirmDialogModule } from 'primeng/confirmdialog'
+import { NgxDropzoneModule } from 'ngx-dropzone';
 
 
 // Auth
@@ -20,6 +21,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { BaseComponent } from './core/base/base.component';
+import { NgbdLeadsSortableHeader } from './core/base/base.directive';
 
 export function createTranslateLoader(http: HttpClient): any {
   return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
@@ -30,7 +32,8 @@ export function createTranslateLoader(http: HttpClient): any {
 @NgModule({
   declarations: [
     AppComponent,
-    BaseComponent
+    BaseComponent,
+    NgbdLeadsSortableHeader
   ],
   imports: [
     TranslateModule.forRoot({
@@ -49,7 +52,8 @@ export function createTranslateLoader(http: HttpClient): any {
     LayoutsModule,
     PagesModule,
     MessagesModule,
-    ConfirmDialogModule
+    ConfirmDialogModule,
+    NgxDropzoneModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
