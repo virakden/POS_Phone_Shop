@@ -47,6 +47,7 @@ class JwtUserDetailsServiceImp : JwtUserDetailsService {
     // Implement Cacheable to authenticate merchant users from caches to improve service performance
     //@Cacheable(value = ["merchant_users"], key = "#email")
     override fun loadUserByUsername(email: String?): UserDetails {
+        println("email:"+email)
         val emp = employeeRepository.findByEmployeeEmailAndStatusTrue(email!!)
             ?: throw UsernameNotFoundException("User not found with email: $email")
         //logger.info("Get user from database!!")

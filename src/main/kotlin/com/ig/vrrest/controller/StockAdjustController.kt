@@ -2,6 +2,7 @@ package com.ig.vrrest.controller
 
 import com.ig.vrrest.base.response.ResponseObjectMap
 import com.ig.vrrest.model.product.StockAdjustment
+import com.ig.vrrest.model.request.StockAdjustmentRequest
 import com.ig.vrrest.services.StockAdjustService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
@@ -42,8 +43,8 @@ class StockAdjustController {
         return responseObjectMap.responseObject(data!!.content, data.totalElements)
     }
 
-    @PutMapping("/update")
-    fun updateStockAdjust(@RequestBody id: Long, t: StockAdjustment): StockAdjustment?= stockAdjustService.updateObj(id,t)
-
-
+    @PutMapping("/update/{productId}")
+    fun updateStockAdjust(@PathVariable productId: Long, @RequestBody t: StockAdjustment): MutableMap<String, Any>{
+        return responseObjectMap.responseObject(stockAdjustService.updateStockByProductId(productId, t))
+    }
 }

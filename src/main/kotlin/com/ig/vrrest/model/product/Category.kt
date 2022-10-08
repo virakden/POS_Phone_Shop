@@ -12,9 +12,9 @@ class Category(
         var categoryName: String?= null,
 
 
-        @JsonIgnore
-        @OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
-        var product: MutableList<Product>? = null
+//        @JsonIgnore
+//        @OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
+//        var product: MutableList<Product>? = null
 
 
 ): BaseEntity()

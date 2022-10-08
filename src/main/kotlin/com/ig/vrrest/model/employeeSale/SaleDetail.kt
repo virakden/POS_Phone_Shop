@@ -1,5 +1,6 @@
 package com.ig.vrrest.model.employeeSale
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import com.ig.vrrest.base.model.BaseEntity
 import com.ig.vrrest.model.product.Product
 import javax.persistence.*
@@ -9,11 +10,10 @@ class SaleDetail(
     @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         var id: Long? = 0,
-    var qty: Long? = 0,
-    var discount: Double? = 0.00,
-    var subTotal: Double? = 0.00,
-    var Total: Double? = 0.00,
 
+        var qty: Long? = 0,
+
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "sale_id")
         var sale: Sale? = null,

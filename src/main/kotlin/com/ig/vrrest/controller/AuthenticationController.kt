@@ -45,6 +45,7 @@ class AuthenticationController{
          * load user by email from db to authenticate
          * if match authentication then return user principle
          */
+
         val email: String = authenticationRequest.email
 
         val userDetail =

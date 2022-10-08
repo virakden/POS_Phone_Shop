@@ -1,12 +1,12 @@
 package com.ig.vrrest.controller
 
 import com.ig.vrrest.base.response.ResponseObjectMap
+import com.ig.vrrest.model.Custom.ProductRequest
 import com.ig.vrrest.model.product.Product
 import com.ig.vrrest.services.ProductService
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-import javax.servlet.http.HttpServletRequest
+import org.springframework.web.multipart.MultipartHttpServletRequest
 
 @RestController
 @RequestMapping("/v1/product")
@@ -19,8 +19,8 @@ class ProductController {
     lateinit var responseObjectMap: ResponseObjectMap
 
     @PostMapping
-    fun addProduct(@RequestBody product: Product): Product? {
-        return productService.addNew(product)
+    fun addProduct(@RequestBody product: ProductRequest): MutableMap<String,Any> {
+        return productService.addProduct(product)
     }
 
     @PostMapping("/add-more")
@@ -45,7 +45,16 @@ class ProductController {
         return responseObjectMap.responseObject(productService.updateObj(id, t))
     }
 
-
+    @PutMapping("/upLoadPhoto/{id}")
+//    fun uploadPhoto(@PathVariable id: Long, image: MutableList<ImageRequest>): MutableMap<String, Any>? =
+//        responseObjectMap.responseObject(productService.uploadImage(id, image)
+//    )
+    fun uploadPhoto(@PathVariable id: Long, amountImage: Int, image: MultipartHttpServletRequest
+    ): MutableMap<String, Any>? =
+        responseObjectMap.responseObject(productService.uploadImage(id, amountImage, image)
+        )
+//
+//
 //    @GetMapping("/image/{image}")
 //    fun getImage(@PathVariable image: String, request: HttpServletRequest): ResponseEntity<*>? {
 //        return productService.getImageById(image , request)

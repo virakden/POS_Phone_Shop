@@ -12,8 +12,8 @@ class StockAdjustment(
         var id: Long? = 0,
         @Enumerated(EnumType.STRING)
         var adjustmentType: AdjustmentType?= null,
-        var qty: Long? = 0,
-        var code: String?= null,
+        var qty: Int? = 0,
+//        var code: String?= null,
         var reason: String? = null,
 
         @ManyToOne(fetch = FetchType.LAZY)

@@ -92,6 +92,7 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
             .permitAll()
             /* role permission of authenticate use access */
             .antMatchers("/v1/api/**").permitAll()
+            .antMatchers("/v1/**").permitAll()
 //            .hasAuthority("ROLE_ADMIN")
             /* all other requests need to be authenticated */
             .anyRequest().authenticated().and()

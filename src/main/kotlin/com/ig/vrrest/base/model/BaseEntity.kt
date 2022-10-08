@@ -9,8 +9,9 @@ import javax.persistence.*
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener::class)
 open class BaseEntity {
-    @Column(name = "status", nullable = true, columnDefinition = "boolean default true")
+    @Column(name = "status", columnDefinition = "boolean default true")
     var status: Boolean = true
+
 
     @Column(name = "version")
     @Version

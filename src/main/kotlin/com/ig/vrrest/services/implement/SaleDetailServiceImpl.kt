@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
 @Service
-class SaleDetailServiceImpl : SaleDetailService {
+class  SaleDetailServiceImpl : SaleDetailService {
 
     @Autowired
     lateinit var saleDetailRepository: SaleDetailRepository
@@ -24,7 +24,6 @@ class SaleDetailServiceImpl : SaleDetailService {
     override fun updateSaleDetail(saleDetail: SaleDetail): SaleDetail? {
         val oldSaleDetail = findById(saleDetail.id!!)
         oldSaleDetail?.qty = saleDetail.qty
-        oldSaleDetail?.discount = saleDetail.discount
 
         return saleDetailRepository.save(oldSaleDetail!!)
 

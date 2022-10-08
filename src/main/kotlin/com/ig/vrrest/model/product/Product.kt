@@ -14,28 +14,28 @@ class Product (
         var productCost: Double? = 0.0,
         var productPrice: Double? = 0.0,
         var description: String? = null,
-        var stockAlert: Int? = 0,
+        var stock: Int? = 0,
 //        var photo: String?= null,
-        var stockAvailability: Int? = 0,
+        var stockAlert: Int? = 0,
 
-        @ManyToOne(fetch = FetchType.LAZY)
-        @JoinColumn(name = "category_id")
-        var category: Category? = null,
+//        @ManyToOne(fetch = FetchType.LAZY)
+//        @JoinColumn(name = "category_id")
+        var category: String? = null,
 
-        @ManyToOne(fetch = FetchType.LAZY)
-        @JoinColumn(name = "brand_id")
-        var brand: Brand? = null,
+//        @ManyToOne(fetch = FetchType.LAZY)
+//        @JoinColumn(name = "brand_id")
+        var brand: String?= null,
 
         @JsonIgnore
-        @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
+        @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
         var stockAdjustment: MutableList<StockAdjustment>? = null,
 
         @JsonIgnore
-        @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
+        @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
         var saleDetail: MutableList<SaleDetail>?= null,
 
 //        @JsonIgnore
-        @OneToMany(mappedBy = "product", fetch = FetchType.EAGER, cascade = [CascadeType.ALL])
+        @OneToMany(fetch = FetchType.EAGER,mappedBy = "product",cascade = [CascadeType.ALL])
         var photo: MutableList<Photo>?= null,
 
         ): BaseEntity()

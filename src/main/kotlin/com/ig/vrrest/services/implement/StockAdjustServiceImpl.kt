@@ -1,6 +1,13 @@
 package com.ig.vrrest.services.implement
 
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.ig.vrrest.exception.CustomException
+import com.ig.vrrest.exception.HttpCode
+import com.ig.vrrest.model.enumerate.AdjustmentType
+import com.ig.vrrest.model.product.Product
 import com.ig.vrrest.model.product.StockAdjustment
+import com.ig.vrrest.model.request.StockAdjustmentRequest
+import com.ig.vrrest.repository.ProductRepo
 import com.ig.vrrest.repository.StockAdjustRepo
 import com.ig.vrrest.services.StockAdjustService
 import org.springframework.beans.factory.annotation.Autowired
@@ -15,6 +22,9 @@ class StockAdjustServiceImpl : StockAdjustService {
 
     @Autowired
     lateinit var stockAdjustRepo: StockAdjustRepo
+
+    @Autowired
+    lateinit var productRepo: ProductRepo
 
     override fun findAllList(q: String?, page: Int, size: Int): Page<StockAdjustment>? {
         return stockAdjustRepo.findAll({ root, _, cb ->
@@ -44,6 +54,37 @@ class StockAdjustServiceImpl : StockAdjustService {
         oldStockAdjustment?.adjustmentType = t.adjustmentType
 
         return stockAdjustRepo.save(oldStockAdjustment!!)
+    }
+
+    /*    override fun updateStockByProductId(t: StockAdjustmentRequest): StockAdjustment? {
+            val product = productRepo.findByIdAndStatusTrue(t.productId!!)
+            println(jacksonObjectMapper().writeValueAsString(t))
+            return if (t.adjustmentType == AdjustmentType.ADD_STOCK) {
+                product!!.stock = product.stock?.plus(t.qty!!)
+                productRepo.save(product)
+                stockAdjustRepo.save(StockAdjustment(adjustmentType = t.adjustmentType, qty = t.qty, product = product))
+            } else if (t.adjustmentType == AdjustmentType.Deduct && product!!.stock!!.minus(t.qty!!) > 0){
+                product.stock = product.stock?.minus(t.qty!!.toInt())
+                productRepo.save(product)
+                stockAdjustRepo.save(StockAdjustment(adjustmentType = t.adjustmentType, qty = t.qty, product = product))
+            } else {
+                StockAdjustment(null)
+            }
+        }*/
+    override fun updateStockByProductId(productId: Long, t: StockAdjustment): StockAdjustment? {
+        val product = productRepo.findByIdAndStatusTrue(productId)
+        println(jacksonObjectMapper().writeValueAsString(t))
+        return if (t.adjustmentType == AdjustmentType.ADD_STOCK) {
+            product!!.stock = product.stock?.plus(t.qty!!)
+            productRepo.save(product)
+            stockAdjustRepo.save(StockAdjustment(adjustmentType = t.adjustmentType, qty = t.qty, product = product))
+        } else if (t.adjustmentType == AdjustmentType.Deduct && product!!.stock!!.minus(t.qty!!) > 0) {
+            product.stock = product.stock?.minus(t.qty!!.toInt())
+            productRepo.save(product)
+            stockAdjustRepo.save(StockAdjustment(adjustmentType = t.adjustmentType, qty = t.qty, product = product))
+        } else {
+            throw CustomException(HttpCode.BAD_REQUEST, "Can not")
+        }
     }
 
     override fun findAll(): List<StockAdjustment>? {

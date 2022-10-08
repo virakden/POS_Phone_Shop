@@ -15,7 +15,7 @@ class Photo (
 
     @JsonIgnoreProperties("hibernateLazyInitializer", "handler")
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = [CascadeType.ALL])
     @JoinColumn(name = "product_id")
     var product: Product?= null
 

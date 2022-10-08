@@ -26,6 +26,7 @@ class EmployeeServiceImpl : EmployeeService {
     lateinit var bCryptPasswordEncoder: BCryptPasswordEncoder
 
     override fun addEmployee(employee: Employee): Employee {
+        employee.status=true
         employee.password = bCryptPasswordEncoder.encode(employee.password)
         return employeeRepository.save( employee )
     }
@@ -57,6 +58,9 @@ class EmployeeServiceImpl : EmployeeService {
         oldEmployee?.employeeName = employee.employeeName
         oldEmployee?.employeeTelephone = employee.employeeTelephone
         oldEmployee?.status = employee.status
+        oldEmployee?.password = bCryptPasswordEncoder.encode(employee.password)
+        oldEmployee?.employeeEmail = employee.employeeEmail
+        oldEmployee?.profilePhoto = employee.profilePhoto
         return employeeRepository.save(oldEmployee)
     }
 

@@ -15,13 +15,16 @@ class Sale(
         var customerTelephone: String?= null,
         var code: String?= null,
         var saleDate: Date? = null,
+        var discount: Double? = 0.00,
+        var subTotal: Double? = 0.00,
+        var total: Double? = 0.00,
 
         @OneToMany(mappedBy = "sale", fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
         @JsonIgnore
         var stockTransaction: MutableList<StockTransaction>? = null,
 
-        @OneToMany(mappedBy = "sale", fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
-        @JsonIgnore
+        //@JsonIgnore
+        @OneToMany(mappedBy = "sale", fetch = FetchType.EAGER)
         var saleDetail: MutableList<SaleDetail>?= null
 
 ): BaseEntity()

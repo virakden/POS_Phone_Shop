@@ -102,6 +102,11 @@ class FileUpload {
 
         }
 
+        fun storeFileImage(pathFile: String, file: MultipartFile): FileUploadResponse? {
+            val fileStorage = storeImage(file, pathFile)
+            return FileUploadResponse("${pathFile.substring(1)}${fileStorage}", fileStorage.toString())
+        }
+
 
         fun loadFileImage(
             fileName: String,

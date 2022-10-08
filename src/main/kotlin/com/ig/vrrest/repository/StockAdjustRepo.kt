@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository
 @Repository
 interface StockAdjustRepo : BaseRepository<StockAdjustment> {
     fun findAllByStatusTrue(): List<StockAdjustment>?
+    fun findByProductIdAndStatusTrue(productId: Long): StockAdjustment?
 }

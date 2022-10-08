@@ -11,8 +11,8 @@ class Brand(
         var id: Long? = 0,
         var brandName: String? = null,
 
-        @JsonIgnore
-        @OneToMany(mappedBy = "brand" ,fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
-        var product: MutableList<Product>? = null
+//        @JsonIgnore
+//        @OneToMany(mappedBy = "brand" ,fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
+//        var product: MutableList<Product>? = null
 
 ): BaseEntity()
