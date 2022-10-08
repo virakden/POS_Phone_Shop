@@ -1,7 +1,7 @@
 import { environment } from 'src/environments/environment.prod';
 import { DropzoneConfigInterface } from 'ngx-dropzone-wrapper';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ProductsService } from '../list/listStock.service';
+import { ListStocksService } from '../list/listStock.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 
@@ -34,7 +34,7 @@ export class AddProductComponent implements OnInit {
         acceptedFiles: 'image/*',
         method: "POST"
     }
-    constructor(private service: ProductsService, private fb: FormBuilder, private modalService: NgbModal) { }
+    constructor(private service: ListStocksService, private fb: FormBuilder, private modalService: NgbModal) { }
 
 
 

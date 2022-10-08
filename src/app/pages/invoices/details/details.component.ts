@@ -13,8 +13,11 @@ export class DetailsComponent implements OnInit {
 
   // bread crumb items
   breadCrumbItems!: Array<{}>;
+  invoice: any;
 
-  constructor() { }
+  constructor() { 
+    this.getValue()
+  }
 
   ngOnInit(): void {
     /**
@@ -24,6 +27,11 @@ export class DetailsComponent implements OnInit {
       { label: 'Invoices' },
       { label: 'Create Invoice', active: true }
     ];
+  }
+
+  getValue(){
+    const invoice: any = localStorage.getItem('Invoice');
+    this.invoice =  JSON.parse(invoice) ;
   }
 
 }

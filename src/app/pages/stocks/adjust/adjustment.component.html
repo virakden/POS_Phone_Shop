@@ -18,14 +18,9 @@
                                     <option *ngFor="let data of ProductData"  [value]="data |json">{{data.productName}}</option>
                                 </select>
                             </div>
-                            <div class="col-lg-6">
-                                <!-- <label>Description</label>
-                                <ckeditor formControlName="descript" [editor]="Editor" data="">
-                                </ckeditor> -->
-        
-                                <label for="description" class="form-label">Description</label>
-                                <textarea type="text" formControlName="descript" class="form-control"  rows="2"></textarea>
-                               
+                            <div class="col-md">
+                                <label for="description" class="form-label">ID</label>
+                                <input type="" class="form-control"  formControlName="id" />                               
                             </div>
 
                         

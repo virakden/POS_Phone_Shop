@@ -12,34 +12,22 @@
                             <div class="flex-grow-1">
                                 <img src="assets/images/logo-dark.png" class="card-logo card-logo-dark" alt="logo dark" height="17">
                                 <img src="assets/images/logo-light.png" class="card-logo card-logo-light" alt="logo light" height="17">
-                                <!-- <div class="mt-sm-5 mt-4">
-                                    <h6 class="text-muted text-uppercase fw-semibold">Contact Info</h6>
-                                    <p class="text-muted mb-1" id="address-details">6A, Prek leap, Chroy Chongva, PhnomPenh</p>
-                                    <p class="text-muted mb-0" id="phone-no"><span>Telephone:</span> 012345678, 097654317221</p>
-                                </div> -->
                                 <div class="row g-3 mt-3">
                                     <div class="col-6">
                                         <h6 class="text-muted text-uppercase fw-semibold mb-3">Contact Shop</h6>
-                                        <p class="fw-medium mb-2" id="shipping-name ">VR 1 Phone Shop </p>
+                                        <p class="fw-medium mb-2" id="shipping-name ">VR Phone Shop </p>
                                         <p class="text-muted mb-1" id="shipping-address-line-1 ">6A, PrekLeap, ChroyChongVa, PhnomPenh</p>
                                         <p class="text-muted mb-1"><span>Phone: +</span><span id="billing-phone-no">012 345 678, 0967 126 890</span></p>
-                                        <!-- <p class="text-muted mb-0"><span>Tax: </span><span id="billing-tax-no">12-3456789</span> </p> -->
                                     </div>
                                     <!--end col-->
                                     <div class="col-6 text-end">
                                         <h6 class="text-muted text-uppercase fw-semibold mb-3">Customer Infor</h6>
-                                        <p class="fw-medium mb-2" id="billing-name"><span class="text-muted">Customer Name: </span>Jonh Vanda</p>
-                                        <p class="fw-medium mb-2" id="billing-name"><span class="text-muted">Customer Phone: </span>(123) 456-7890</p>
+                                        <p class="fw-medium mb-2" id="billing-name"><span class="text-muted">Customer Name: </span>{{invoice.customerName}}</p>
+                                        <p class="fw-medium mb-2" id="billing-name"><span class="text-muted">Customer Phone: </span>{{invoice.customerTelephone}}</p>
                                     </div>
                                     <!--end col-->
                                 </div>
                             </div>
-                            <!-- <div class="flex-shrink-0 mt-sm-0 mt-3">
-                                <h6><span class="text-muted fw-normal">Legal Registration No:</span><span id="legal-register-no">987654</span></h6>
-                                <h6><span class="text-muted fw-normal">Email:</span><span id="email">velzon@themesbrand.com</span></h6>
-                                <h6><span class="text-muted fw-normal">Website:</span> <a href="https://themesbrand.com/" class="link-primary" target="_blank" id="website">www.themesbrand.com</a></h6>
-                                <h6 class="mb-0"><span class="text-muted fw-normal">Contact No: </span><span id="contact-no"> +(01) 234 6789</span></h6>
-                            </div> -->
                         </div>
                     </div>
                     <!--end card-header-->
@@ -49,7 +37,7 @@
                         <div class="row g-3">
                             <div class="col-lg-3 col-6">
                                 <p class="text-muted mb-2 text-uppercase fw-semibold">Invoice No</p>
-                                <h5 class="fs-14 mb-0">#VL<span id="invoice-no">25000355</span></h5>
+                                <h5 class="fs-14 mb-0">#<span id="invoice-no">{{invoice.code}}</span></h5>
                             </div>
                             <!--end col-->
                             <div class="col-lg-3 col-6">
@@ -64,7 +52,7 @@
                             <!--end col-->
                             <div class="col-lg-3 col-6">
                                 <p class="text-muted mb-2 text-uppercase fw-semibold">Total Amount</p>
-                                <h5 class="fs-14 mb-0">$<span id="total-amount">755.96</span></h5>
+                                <h5 class="fs-14 mb-0">$<span id="total-amount">{{invoice.total}}</span></h5>
                             </div>
                             <!--end col-->
                         </div>
@@ -82,52 +70,55 @@
                                     <tr class="table-active">
                                         <th scope="col" style="width: 50px;">#</th>
                                         <th scope="col">Product Details</th>
-                                        <th scope="col">Rate</th>
+                                        <th scope="col">Item Price</th>
                                         <th scope="col">Quantity</th>
                                         <th scope="col" class="text-end">Amount</th>
                                     </tr>
                                 </thead>
                                 <tbody id="products-list">
-                                    <tr>
-                                        <th scope="row">01</th>
-                                        <td class="text-start">
-                                            <span class="fw-medium">Sweatshirt for Men (Pink)</span>
-                                            <p class="text-muted mb-0">Graphic Print Men & Women Sweatshirt</p>
-                                        </td>
-                                        <td>$119.99</td>
-                                        <td>02</td>
-                                        <td class="text-end">$239.98</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">02</th>
-                                        <td class="text-start">
-                                            <span class="fw-medium">Noise NoiseFit Endure Smart Watch</span>
-                                            <p class="text-muted mb-0">32.5mm (1.28 Inch) TFT Color Touch Display</p>
-                                        </td>
-                                        <td>$94.99</td>
-                                        <td>01</td>
-                                        <td class="text-end">$94.99</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">03</th>
-                                        <td class="text-start">
-                                            <span class="fw-medium">350 ml Glass Grocery Container</span>
-                                            <p class="text-muted mb-0">Glass Grocery Container (Pack of 3, White)</p>
-                                        </td>
-                                        <td>$24.99</td>
-                                        <td>01</td>
-                                        <td class="text-end">$24.99</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">04</th>
-                                        <td class="text-start">
-                                            <span class="fw-medium">Fabric Dual Tone Living Room Chair</span>
-                                            <p class="text-muted mb-0">Chair (White)</p>
-                                        </td>
-                                        <td>$340.00</td>
-                                        <td>01</td>
-                                        <td class="text-end">$340.00</td>
-                                    </tr>
+                                    <!-- <tr> -->
+                                        <tr *ngFor="let item of invoice?.saleDetail">
+                                            <th scope="row">01</th>
+                                            <td class="text-start">
+                                                <span class="fw-medium">{{item.product.productName}}</span>
+                                                <p class="text-muted mb-0">{{item.product.category}} & {{item.product.brand}}</p>
+                                            </td>
+                                            <td>$119.99</td>
+                                            <td>02</td>
+                                            <td class="text-end">$239.98</td>
+                                        </tr>
+                                        <!-- <tr>
+                                            <th scope="row">02</th>
+                                            <td class="text-start">
+                                                <span class="fw-medium">Noise NoiseFit Endure Smart Watch</span>
+                                                <p class="text-muted mb-0">32.5mm (1.28 Inch) TFT Color Touch Display</p>
+                                            </td>
+                                            <td>$94.99</td>
+                                            <td>01</td>
+                                            <td class="text-end">$94.99</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">03</th>
+                                            <td class="text-start">
+                                                <span class="fw-medium">350 ml Glass Grocery Container</span>
+                                                <p class="text-muted mb-0">Glass Grocery Container (Pack of 3, White)</p>
+                                            </td>
+                                            <td>$24.99</td>
+                                            <td>01</td>
+                                            <td class="text-end">$24.99</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">04</th>
+                                            <td class="text-start">
+                                                <span class="fw-medium">Fabric Dual Tone Living Room Chair</span>
+                                                <p class="text-muted mb-0">Chair (White)</p>
+                                            </td>
+                                            <td>$340.00</td>
+                                            <td>01</td>
+                                            <td class="text-end">$340.00</td>
+                                        </tr> -->
+                                    <!-- </tr> -->
+                                    
                                 </tbody>
                             </table><!--end table-->
                         </div>
@@ -158,13 +149,6 @@
                             </table>
                             <!--end table-->
                         </div>
-                        <!-- <div class="mt-3">
-                            <h6 class="text-muted text-uppercase fw-semibold mb-3">Payment Details:</h6>
-                            <p class="text-muted mb-1">Payment Method: <span class="fw-medium" id="payment-method">Mastercard</span></p>
-                            <p class="text-muted mb-1">Card Holder: <span class="fw-medium" id="card-holder-name">David Nichols</span></p>
-                            <p class="text-muted mb-1">Card Number: <span class="fw-medium" id="card-number">xxx xxxx xxxx 1234</span></p>
-                            <p class="text-muted">Total Amount: <span class="fw-medium" id="">$ </span><span id="card-total-amount">755.96</span></p>
-                        </div> -->
                         <div class="mt-4">
                             <div class="alert alert-info">
                                 <p class="mb-0"><span class="fw-semibold">NOTES:</span>

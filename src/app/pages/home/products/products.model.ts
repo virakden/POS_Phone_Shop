@@ -1,4 +1,4 @@
-export interface productModel {
+export interface ProductModel {
     id: string;
     productName: string;
     productCost: string;
@@ -6,16 +6,18 @@ export interface productModel {
     description: string;
     stock: any;
     stockAvailability: number;
-    photo: Array<{}>;
+    photo: Array<PhotosProduct>;
     category: string;
     brand: string;
     status: boolean;
     version: number;
+    select:Boolean;
 }
 
 export interface PhotosProduct {
     id: string;
     photoName: string;
+    photoPath: string;
     status: boolean;
     version: number;
 }

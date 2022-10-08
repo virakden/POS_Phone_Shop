@@ -14,7 +14,8 @@ import { DecimalPipe } from '@angular/common';
 @Injectable({ providedIn: 'root' })
 export class EmployeeService extends BaseService {
 
-  protected url = "http://localhost:8080/v1/employee/upLoadImage"
+  protected url = "http://localhost:8080/v1/image"
+  
 
   constructor(public override http: HttpClient, public override pipe: DecimalPipe) {
     super(http, "/employee", pipe)
@@ -37,6 +38,17 @@ export class EmployeeService extends BaseService {
 
     })
 
+  }
+
+creatEmp(obj:any){
+  return this.http.post<any>("http://localhost:8080/v1/employee",obj)
+}
+
+  /*** Upload Single Image */
+  uploadImage(file: any, type: string) {
+    const formData = new FormData();
+    formData.append('file', file);
+    return this.http.post(`${this.url}/upload-image-/${type}`, formData);
   }
 
 

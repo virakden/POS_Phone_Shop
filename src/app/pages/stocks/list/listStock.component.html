@@ -94,6 +94,7 @@
                             </tbody>
                         </table>
                     </div>
+                    
                     <div class="row justify-content-md-between align-items-md-center mt-3">
                         <div class="col col-sm-6">
                             <div class="dataTables_info mb-2" id="tickets-table_info" role="status" aria-live="polite">
@@ -103,7 +104,7 @@
                                 
                             </div>
                         </div>
-                        <!-- Pagination -->
+                        
                         <div class="col col-sm-6">
                             <div class="text-sm-right float-sm-end listjs-pagination">
                                 <ngb-pagination [collectionSize]="(total$ | async)!" (pageChange)="done()" [(page)]="pages"

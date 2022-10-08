@@ -4,9 +4,8 @@ import { Routes, RouterModule } from '@angular/router';
 // Component pages
 import { ProductsComponent } from "./products/products.component";
 import { ProductDetailComponent } from "./product-detail/product-detail.component";
-import { OrdersComponent } from "./orders/orders.component";
 import { OrdersDetailsComponent } from "./orders-details/orders-details.component";
-import { CartComponent } from "./confirm/cart.component";
+import { ConfirmOrderComponent } from "./confirm/confirmOrder.component";
 
 
 const routes: Routes = [
@@ -22,17 +21,14 @@ const routes: Routes = [
 //     path: "add-product",
 //     component: AddProductComponent
 //   },
-  {
-    path: "orders",
-    component: OrdersComponent
-  },
+
   {
     path: "order-details",
     component: OrdersDetailsComponent
   },
   {
     path: "confirm",
-    component: CartComponent
+    component: ConfirmOrderComponent
   },
 
 

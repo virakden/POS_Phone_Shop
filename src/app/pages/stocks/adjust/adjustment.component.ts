@@ -1,6 +1,6 @@
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { ProductsModel } from '../list/listStock.model';
-import { ProductsService } from '../list/listStock.service';
+import { ListStocksService } from '../list/listStock.service';
 import { Component, OnInit } from '@angular/core';
 // Ck Editer
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
@@ -22,7 +22,7 @@ export class AdjustmentComponent implements OnInit {
   ProductData: ProductsModel[]=[];
   public Editor = ClassicEditor;
 
-  constructor(private service: ProductsService, public fb: FormBuilder) { }
+  constructor(private service: ListStocksService, public fb: FormBuilder) { }
 
   ngOnInit(): void {
     this.initCreateForm();
@@ -38,7 +38,7 @@ export class AdjustmentComponent implements OnInit {
 
   initCreateForm() {
     this.f = this.fb.group({
-        descript: [null],
+        id: [null],
         productName:[null]
     });
   }
@@ -54,7 +54,7 @@ export class AdjustmentComponent implements OnInit {
     const pro = JSON.parse(product);
     console.log(pro);
     this.f.patchValue ({
-        descript : pro.description
+        id : pro.id
     })
   }
 

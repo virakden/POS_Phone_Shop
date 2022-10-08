@@ -6,7 +6,7 @@ import { SharedService } from './../../../shared/shared.service';
 import { BaseComponent } from './../../../core/base/base.component';
 import { Component, OnInit, ViewChildren, QueryList } from '@angular/core';
 import { DialogService } from 'primeng/dynamicdialog';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 // Sweet Alert
 
@@ -15,7 +15,7 @@ import { EmployeeService } from './employees.service';
 import { Router } from '@angular/router';
 import { BehaviorSubject, of, Observable } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { AdvancedService } from '../../home/products/products.service';
+import { ProductsService } from '../../home/products/products.service';
 import { DecimalPipe } from '@angular/common';
 
 
@@ -23,7 +23,7 @@ import { DecimalPipe } from '@angular/common';
   selector: 'app-employees',
   templateUrl: './employees.component.html',
   styleUrls: ['./employees.component.scss'],
-  providers: [AdvancedService, DecimalPipe]
+  providers: [ProductsService, DecimalPipe]
 })
 
 
@@ -56,7 +56,7 @@ export class EmployeesComponent extends BaseComponent implements OnInit {
   pageSize = 3
   private _total$ = new BehaviorSubject<number>(0);
   total$?: Observable<number>;
-  public Storage= "http://localhost:8080/v1/employee/image/";
+  public Storage= "http://localhost:8080/v1/image";
 
     // Table data
     staff$!: Observable<employeeModel[]>;
@@ -74,6 +74,7 @@ export class EmployeesComponent extends BaseComponent implements OnInit {
     private modalService: NgbModal,
     public dialogService: DialogService,
     
+    
 
   ) {
     super();
@@ -86,23 +87,21 @@ export class EmployeesComponent extends BaseComponent implements OnInit {
 
   ngOnInit(): void {
     // this.getObjList();
-  
-    this.getEmp();
-    // console.log('ts:', this.total$);
     this.initCreateForm();
+    this.getEmp();
+    
   }
-
 
 
   initCreateForm() {
     this.employeeForm = this.fb.group({
-      id: null,
-      employeeName: [null],
-      employeeEmail: [null],
-      employeeTelephone: [null],
+      id: [null],
+      employeeName: ['', Validators.required],
+      employeeEmail: ['', Validators.required],
+      employeeTelephone: ['', Validators.required],
       joinDate:[null],
       profilePhoto: [null],
-      password: [null],
+      password: ['', Validators.required],
       status: [null]
     });
   }
@@ -130,7 +129,6 @@ export class EmployeesComponent extends BaseComponent implements OnInit {
   getEmp() {
     this.service.getObj().subscribe(res => {
       this.Empl = res.results
-      console.log('Empl',this.Empl);
       
       // this.ngOnInit();
       this._total$.next(this.Empl.length)
@@ -141,9 +139,7 @@ export class EmployeesComponent extends BaseComponent implements OnInit {
         this.endIndex = this.totalRecord;
       }
       this.Empl = this.Empl.slice(this.startIndex - 1, this.endIndex);
-      // console.log('total:', total);
-
-      console.log('employee:', of(this.Empl));
+     
       return of(this.Empl)
 
     })
@@ -151,17 +147,19 @@ export class EmployeesComponent extends BaseComponent implements OnInit {
 
  onSave(formObj: any) {
     this.objs = formObj;
-    this.objs.profilePhoto = this.imagePath;
-   
     
-    this.service.create(this.objs).subscribe(
-      (res: any) => {``
-        this.service.uploadImageProfile(res.id,this.objs.profilePhoto).subscribe(res=>{
-          console.log('res image:', res);
-          
-        })
-        this.ngOnInit();
-      });
+    
+    this.objs.profilePhoto = this.imagePath;
+
+   this.service.creatEmp(this.objs).subscribe(res=>{
+      this.ngOnInit()
+      
+    })
+    
+    // this.service.create(this.objs).subscribe(
+    //   (res: any) => {
+    //     this.ngOnInit();
+    //   });
       
 
 
@@ -169,13 +167,17 @@ export class EmployeesComponent extends BaseComponent implements OnInit {
   }
 
   onEdit(object: any) {
-    // console.log(object.employeeEmail);
-    this.service.updateObj(object).subscribe(
+    this.objs = object;
+    this.objs.profilePhoto = this.imagePath;
+
+    this.service.updateObj(this.objs).subscribe(
         (res: any) => {
-            console.log(res);
             this.ngOnInit();
         }
     ); 
+
+
+
    
     this.modalService.dismissAll();
   
@@ -194,12 +196,16 @@ export class EmployeesComponent extends BaseComponent implements OnInit {
       reader.onload = (event) => {
         // @ts-ignore
         this.urlLink = event.target.result
-        // console.log('pic',this.urlLink);
         // this.f.controls["profilePhoto"] = this.urlLink
       };
     }
     this.fileUploaded = event.target.files[0];
-    this.imagePath = this.fileUploaded.name
+    this.service.uploadImage(this.fileUploaded, "employeeProfile").subscribe((res:any) =>{
+
+
+      this.imagePath = res.results.file
+    })
+    
   }
 
   override showViewForm(obj: any) {

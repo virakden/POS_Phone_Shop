@@ -126,6 +126,7 @@
             </table>
           </div>
 
+          <!-- Pagination -->
           <div class="row justify-content-md-between align-items-md-center">
             <div class="col col-sm-5">
               <div class="dataTables_info mb-2" id="tickets-table_info" role="status" aria-live="polite">
@@ -134,7 +135,7 @@
                 {{endIndex}} of {{totalRecord}}
               </div>
             </div>
-            <!-- Pagination -->
+            
             <div class="col col-sm-5">
               <div class="text-sm-right float-sm-end listjs-pagination">
                 <ngb-pagination [collectionSize]="(total$ | async)!" (pageChange)="done()" [(page)]="pages"
@@ -239,7 +240,7 @@
               <div class="hstack gap-2 justify-content-end">
                 <button type="button" class="btn btn-light" data-bs-dismiss="modal"
                   (click)="modal.close('Close click')">Close</button>
-                <button type="submit" class="btn btn-success" id="add-btn" (click)="onSave(employeeForm.value)">Add
+                <button class="btn btn-success" id="add-btn" (click)="onSave(employeeForm.value)">Add
                   Employee</button>
               </div>
             </div>
@@ -300,6 +301,15 @@
               </div>
 
               <div class="mb-3">
+                <label for="status-field" class="form-label">Status</label>
+                <select class="form-control" data-plugin="choices" id="ticket-status" formControlName="status" >
+                    <option value="">Status</option>
+                    <option value="true">true</option>
+                    <option value="false">false</option>
+                </select>
+            </div>
+
+              <div class="mb-3">
                 <label for="employeeTelephone-field" class="form-label">Telephone</label>
                 <input type="text" id="employeeTelephone-field" class="form-control" placeholder="Enter Phone Number"
                   required formControlName="employeeTelephone"
@@ -311,11 +321,13 @@
                 </div>
               </div>
 
-              <div class="col-lg-12">
-                <div>
-                  <label for="date-field" class="form-label">Join Date</label>
-                  <input class="form-control flatpickr-input" type="text" placeholder="Select Date" mwlFlatpickr
-                    [altInput]="true" [convertModelValue]="true" [dateFormat]="'Y-m-d '" formControlName="joinDate">
+              <div class="mb-3">
+                <label for="password-field" class="form-label">Password</label>
+                <input type="text" id="password-field" class="form-control" placeholder="Enter Password" required
+                  formControlName="password"
+                  [ngClass]="{ 'is-invalid': submitted && employeeForm.controls['password'].errors }" />
+                <div *ngIf="submitted && employeeForm.controls['password'].errors" class="invalid-feedback"
+                  align="left">
                 </div>
               </div>
               <!--end col-->

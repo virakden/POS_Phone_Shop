@@ -136,6 +136,7 @@ export class BaseService {
   create(obj: any) {
     return this.http.post<any>(this.userUrl, obj);
   }
+  
   updateObj(obj: any) {
     return this.http.put(`${this.userUrl}/update/${obj.id}`, obj);
   }
@@ -143,12 +144,12 @@ export class BaseService {
     return this.http.delete(this.userUrl + '/' + id)
   }
 
-  /*** Upload Single Image */
-  uploadImage(file: any) {
-    const formData = new FormData();
-    formData.append('file', file);
-    return this.http.put<any>(this.userUrl + '/upLoadImage' ,formData);
-  }
+  // /*** Upload Single Image */
+  // uploadImage(file: any) {
+  //   const formData = new FormData();
+  //   formData.append('file', file);
+  //   return this.http.put<any>(this.userUrl + '/upLoadImage' ,formData);
+  // }
 
   // uploadImageProfile(id: number, profilePhoto: string) {
   //   // @ts-ignore

@@ -7,7 +7,7 @@ import { DecimalPipe } from '@angular/common';
 
 
 @Injectable({ providedIn: 'root' })
-export class ProductsService extends BaseService{
+export class ListStocksService extends BaseService{
 
     protected url = "http://localhost:8080/v1/image/upload-images"
     protected urlCate = environment.baseServer+"/category/all"

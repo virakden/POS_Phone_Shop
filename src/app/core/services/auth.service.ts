@@ -104,16 +104,7 @@ export class AuthenticationService {
         return this.getToken();
     }
 
-    /**
-     * Reset password
-     * @param email email
-     */
-    // resetPassword(email: string) {
-    //     return getFirebaseBackend()!.forgetPassword(email).then((response: any) => {
-    //         const message = response.data;
-    //         return message;
-    //     });
-    // }
+    
 
     Encrypt (decrypted: any) {
         const salt = forge.random.getBytesSync(128);

@@ -38,12 +38,9 @@ import lottie from 'lottie-web';
 import { EcommerceRoutingModule } from './ecommerce-routing.module';
 import { ProductsComponent } from './products/products.component';
 import { ProductDetailComponent } from './product-detail/product-detail.component';
-import { OrdersComponent } from './orders/orders.component';
 import { OrdersDetailsComponent } from './orders-details/orders-details.component';
-import { CartComponent } from './confirm/cart.component';
-import { CheckoutComponent } from './checkout/checkout.component';
-import { SellersComponent } from './sellers/sellers.component';
-import { SellerDetailsComponent } from './seller-details/seller-details.component';
+import { ConfirmOrderComponent } from './confirm/confirmOrder.component';
+
 
 const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
   direction: 'horizontal',
@@ -61,13 +58,8 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     ProductsComponent,
     NgbdProductsSortableHeader,
     ProductDetailComponent,
-    // AddProductComponent,
-    OrdersComponent,
     OrdersDetailsComponent,
-    CartComponent,
-    CheckoutComponent,
-    SellersComponent,
-    SellerDetailsComponent
+    ConfirmOrderComponent
   ],
   imports: [
     CommonModule,
