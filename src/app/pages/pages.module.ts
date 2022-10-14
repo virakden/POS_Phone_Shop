@@ -1,6 +1,6 @@
 import { StockModule } from './stocks/stocks.module';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import {
   NgbToastModule, NgbProgressbarModule
 } from '@ng-bootstrap/ng-bootstrap';
@@ -62,9 +62,11 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     StockModule
   ],
   providers: [
+    DatePipe,
     {
       provide: SWIPER_CONFIG,
-      useValue: DEFAULT_SWIPER_CONFIG
+      useValue: DEFAULT_SWIPER_CONFIG,
+      
     }
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

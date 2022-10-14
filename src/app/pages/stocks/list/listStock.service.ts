@@ -11,6 +11,8 @@ export class ListStocksService extends BaseService{
 
     protected url = "http://localhost:8080/v1/image/upload-images"
     protected urlCate = environment.baseServer+"/category/all"
+    protected urlAdj = environment.baseServer+"/stock-adjust/update"
+
 
 
     constructor(public override http: HttpClient, public override pipe: DecimalPipe){
@@ -29,4 +31,9 @@ export class ListStocksService extends BaseService{
     getCate(){
         return this.http.get<any>(this.urlCate)
     }
+
+    ajustment(obj: any){
+        return this.http.put<any>(this.urlAdj +'/'+ obj.id, obj);
+    }
+
 }

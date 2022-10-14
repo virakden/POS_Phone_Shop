@@ -35,7 +35,7 @@
                         <table class="table">
                             <thead>
                                 <tr class="bg-light text-muted col-lg-5">
-                                    <th class="sort" data-sort="id">No</th>
+                                    <th class="sort" data-sort="id">ID</th>
                                     <th class="sort" data-sort="productName_name">Product Name</th>
                                     <th class="sort" data-sort="brand">Brand</th>
                                     <th class="sort" data-sort="category">Category</th>
@@ -74,7 +74,7 @@
                                                         Edit</a></li>
                                                 <li>
                                                     <a class="dropdown-item remove-item-btn" data-bs-toggle="modal"
-                                                        (click)="confirm()">
+                                                        (click)="confirm(data)">
                                                         <i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i>
                                                         Delete
                                                     </a>
@@ -151,7 +151,7 @@
                                     <div>
                                         <label for="Cost-field" class="form-label">COST</label>
                                         <input type="text" id="Cost-field" class="form-control" placeholder="$" required
-                                            formControlName="Cost"
+                                            formControlName="productCost"
                                             [ngClass]="{ 'is-invalid': submitted && productsForm.controls['Cost'].errors }" />
                                         <div *ngIf="submitted && productsForm.controls['Cost'].errors"
                                             class="invalid-feedback" align="left">
@@ -164,7 +164,7 @@
                                     <div>
                                         <label for="price-field" class="form-label">PRICE</label>
                                         <input type="text" id="price-field" class="form-control" placeholder="$"
-                                            required formControlName="price"
+                                            required formControlName="productPrice"
                                             [ngClass]="{ 'is-invalid': submitted && productsForm.controls['price'].errors }" />
                                         <div *ngIf="submitted && productsForm.controls['price'].errors"
                                             class="invalid-feedback" align="left">
@@ -218,7 +218,7 @@
                             <div class="hstack gap-2 justify-content-end">
                                 <button type="button" class="btn btn-light" data-bs-dismiss="modal"
                                     (click)="modal.close('Close click')">Close</button>
-                                <button type="submit" class="btn btn-success" id="add-btn">Confirm</button>
+                                <button type="submit" class="btn btn-success"  id="add-btn">Confirm</button>
                             </div>
                         </div>
                     </form>

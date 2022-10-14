@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -15,27 +16,32 @@ export class OrdersDetailsComponent implements OnInit {
   breadCrumbItems!: Array<{}>;
   invoice: any;
   public Storage = "http://localhost:8080/v1/image";
+  currentDataTime: any
 
 
-  constructor() {
+  constructor(public datepipe: DatePipe) {
     this.getValue();
+    this.currentDataTime =this.datepipe.transform((new Date), 'MM/dd/yyyy h:mm:ss');
+    console.log(this.currentDataTime);
    }
 
   ngOnInit(): void {
-    /**
+    /*
     * BreadCrumb
     */
+    // this.getValue();
      this.breadCrumbItems = [
       { label: 'home' },
       { label: 'Order Details', active: true }
     ];
 
-
+    
   }
 
   getValue(){
-    const invoice: any = localStorage.getItem('Invoice');
+    const invoice: any = localStorage.getItem('Invoice');    
     this.invoice =  JSON.parse(invoice) ;
+    
   }
 
   clearInvoice(){

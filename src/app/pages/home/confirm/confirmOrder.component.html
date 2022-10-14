@@ -70,8 +70,6 @@
 
 
             <div class="text-end mb-4">
-                <!-- <button (click)="clearItems()" class="btn btn-success">clear</button> -->
-                <!-- <button (click)="saveData()" class="btn btn-primary">next</button> -->
                 <a routerLink="/home/order-details" (click)="saveData()" class="btn btn-success btn-label right ms-auto"><i class="ri-arrow-right-line label-icon align-bottom fs-16 ms-2"></i> Checkout</a>
             </div>
         </div>
@@ -89,7 +87,7 @@
                         </div>
                         <div class="hstack gap-3 px-3 mx-n3">
                             <input class="form-control me-auto" type="text" placeholder="Enter Name Customer" formControlName="customerName" aria-label="Add Promo Code here...">
-                            <!-- <button type="button" class="btn btn-success w-xs">Apply</button> -->
+                            <input class="form-control w-75" type="date" placeholder="Enter Name Customer" formControlName="saleDate">
                         </div>
                         <div class="hstack gap-3 px-3 mx-n3 mt-2">
                             <input class="form-control me-auto" type="text" placeholder="Enter mobile phone Customer" formControlName="customerTelephone" aria-label="Add Promo Code here...">

@@ -141,7 +141,7 @@ export class BaseService {
     return this.http.put(`${this.userUrl}/update/${obj.id}`, obj);
   }
   delete(id:any) {
-    return this.http.delete(this.userUrl + '/' + id)
+    return this.http.delete(this.userUrl + '/delete/' + id)
   }
 
   // /*** Upload Single Image */

@@ -9,6 +9,7 @@ import { cartData } from './data';
 // Sweet Alert
 import Swal from 'sweetalert2';
 import { ProductsService } from '../products/products.service';
+import { DatePipe } from '@angular/common';
 // import { ProductsModel } from '../products/products.model';
 
 @Component({
@@ -34,13 +35,20 @@ export class ConfirmOrderComponent implements OnInit {
   confirmForm!: FormGroup;
   detailsForm!:FormGroup
   public Storage = "http://localhost:8080/v1/image";
+  currentDataTime: any
   
   @Input() parentData: any;
 
 
   @ViewChild(ProductsComponent) card!: ProductsComponent ;
   constructor(private formBuilder: FormBuilder,
-    protected productService: ProductsService) { }
+    protected productService: ProductsService,public datepipe: DatePipe) {
+        this.currentDataTime =this.datepipe.transform((new Date), 'MM/dd/yyyy h:mm:ss');
+        // console.log(this.currentDataTime);
+        
+     }
+
+   
 
 
   ngOnInit(): void {
@@ -56,6 +64,8 @@ export class ConfirmOrderComponent implements OnInit {
         /**
          * fetches the data
          */
+         
+         
         
         this.confirmForm = this.formBuilder.group({
             
@@ -64,11 +74,13 @@ export class ConfirmOrderComponent implements OnInit {
             subTotal: ['', Validators.required],
             discount: ['', Validators.required],
             total: ['', Validators.required],
-            saleDetail: [null],
+            saleDetail:[''],
+            saleDate: [null]
         })
         
         this._fetchData();
         this.GetData();
+        
 
   }
 
@@ -161,7 +173,7 @@ export class ConfirmOrderComponent implements OnInit {
     const items: any = localStorage.getItem('Items');
     
     this.items =  JSON.parse(items) ;
-    const count: any = items.length;
+    // const count: any = items.length;
     // console.log(count);
 
     this.items=  this.items.map((item:any) =>{
@@ -186,14 +198,16 @@ export class ConfirmOrderComponent implements OnInit {
   saveData(){
     
     this.setDataArray();
-    this.value = [];
-    // console.log(this.confirmForm.value);
-    
+    this.value = [];    
     this.productService.addSale(this.confirmForm.value).subscribe(res =>{
+        window.location.reload()        
         this.clearItems();
+    
         const value = JSON.stringify(res.results);
-        localStorage.setItem('Invoice',value);      
+        localStorage.setItem('Invoice',value); 
+          
     })
+   
   }
 
 }

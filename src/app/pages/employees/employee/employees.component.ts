@@ -1,4 +1,3 @@
-import { Login } from './../../../core/models/auth.models';
 import { HttpHandler, HttpClient } from '@angular/common/http';
 import { NgbdLeadsSortableHeader } from 'src/app/core/base/base.directive';
 import { EmployeeModules } from './../employees.module';
@@ -73,8 +72,6 @@ export class EmployeesComponent extends BaseComponent implements OnInit {
     private route: Router,
     private modalService: NgbModal,
     public dialogService: DialogService,
-    
-    
 
   ) {
     super();

@@ -38,8 +38,9 @@ export class listStockComponent implements OnInit {
     pageIndex = 0;
     totalRecord!: number;
     pages = 1
-    pageSize = 3
+    pageSize = 4
     private _total$ = new BehaviorSubject<number>(0);
+    deleteId!: number
 
 
 
@@ -58,6 +59,8 @@ export class listStockComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        this.getPro();
+
         /**
         * BreadCrumb
         */
@@ -77,12 +80,11 @@ export class listStockComponent implements OnInit {
             productCost: [null],
             productPrice: [null]
         });
-        this.getPro();
-
+   
         /**
          * fetches data
          */
-        this._fetchData();
+        // this._fetchData();
 
     }
 
@@ -108,10 +110,8 @@ export class listStockComponent implements OnInit {
     }
 
     onEdit(object: any) {
-        // console.log(object.employeeEmail);
         this.service.updateObj(object).subscribe(
             (res: any) => {
-                console.log(res);
                 this.ngOnInit();
             }
         );
@@ -134,7 +134,7 @@ export class listStockComponent implements OnInit {
 
     editModal(edit: any, pro: any) {
 
-        console.log(pro);
+        
 
         this.productsForm.patchValue(pro)
         // this.submitted = false;
@@ -203,10 +203,10 @@ export class listStockComponent implements OnInit {
     /**
      * Confirmation mail model
      */
-    confirm() {
+    confirm(ob:any) {
         Swal.fire({
             reason: 'You are about to delete a lead ?',
-            text: 'Deleting your lead will remove all of your information from our database.',
+            text: 'Deleting your product will remove all of your information from our database.',
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#f46a6a',
@@ -214,9 +214,20 @@ export class listStockComponent implements OnInit {
             cancelButtonText: 'Close'
         }).then(result => {
             if (result.value) {
-                Swal.fire('Deleted!', 'Leads has been deleted.', 'success');
+                this.delete(ob)
+                Swal.fire('Deleted!', 'Product has been deleted.', 'success');
             }
         });
+    }
+
+    delete(obj:any){
+        this.deleteId = obj.id
+        this.service.delete(this.deleteId).subscribe(res => {
+            this.getPro()
+           
+        })
+       
+        
     }
 
     // The master checkbox will check/ uncheck all items

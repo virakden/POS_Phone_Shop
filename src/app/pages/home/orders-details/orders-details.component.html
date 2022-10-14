@@ -7,11 +7,11 @@
         <div class="card">
             <div class="card-header">
                 <div class="d-flex align-items-center">
-                    <h5 class="card-title flex-grow-1 mb-0">Invoice: {{invoice.code}}</h5>
+                    <!-- <h5 class="card-title flex-grow-1 mb-0">Invoice: {{invoice.code}}</h5> -->
                     <div class="flex-shrink-0">
                         <a routerLink="/invoices/details" class="btn btn-success btn-sm"><i
                                 class="ri-download-2-fill align-middle me-1"></i> Invoice</a>
-                            <button (click)="clearInvoice()" class="btn btn-primary">clear</button>
+                            
                     </div>
                 </div>
             </div>
@@ -92,11 +92,15 @@
                     <li class=" fw-bold">
                         <i class="ri-user-line me-2 align-middle text-muted fs-16"></i>
                         {{invoice.customerName}}
-                        <p class="text-muted mb-0">Customer</p>
+                        <!-- <p class="text-muted mb-0">Customer</p> -->
                     </li>
-                    <li class=" fw-bold">
+                    <li class="fw-bold">
                         <i class="ri-phone-line me-2 align-middle text-muted fs-16"></i>
                         {{invoice.customerTelephone}}
+                    </li>
+                    <li class="fw-bold">
+                        <i class="ri-calendar-check-line me-2 align-middle text-muted fs-16"></i>
+                        {{invoice.saleDate | date: 'yyyy-MMM-dd'}}
                     </li>
                 </ul>
             </div>

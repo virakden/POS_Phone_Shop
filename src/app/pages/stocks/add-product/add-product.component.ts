@@ -4,6 +4,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ListStocksService } from '../list/listStock.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
+import Swal from 'sweetalert2';
+
 
 // Ck Editer
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
@@ -65,12 +67,24 @@ export class AddProductComponent implements OnInit {
         });
     }
 
+    position() {
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          reason: 'Your work has been saved',
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }
+
     create() {
         const value = this.productsForm.value;
         value.photo = this.photos;
         this.service.create(value).subscribe(
             (res: any) => {
-
+                if(res.response.status == 200){
+                    this.position()
+                }
             }
         );
         this.modalService.dismissAll();

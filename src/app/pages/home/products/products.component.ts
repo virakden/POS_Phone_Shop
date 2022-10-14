@@ -43,7 +43,7 @@ export class ProductsComponent implements OnInit {
     pageIndex = 0;
     totalRecord!: number;
     pages = 1
-    pageSize = 3
+    pageSize = 4
     private _total$ = new BehaviorSubject<number>(0);
 
     // Table data
@@ -79,7 +79,7 @@ export class ProductsComponent implements OnInit {
             productPrice: [null]
         });
 
-        this.getPegination();
+        // this.getPegination();
 
         /**
          * fetches data
@@ -88,7 +88,7 @@ export class ProductsComponent implements OnInit {
     }
 
     done(){
-        return this.getPegination();
+        return this._getAllData();
     }
 
     /**
@@ -98,25 +98,19 @@ export class ProductsComponent implements OnInit {
         this.service.getObj()
             .subscribe(res => {
                 this.ProductData = res.results
+
+                this._total$.next(this.ProductData.length)
+                this.totalRecord = this.ProductData.length
+                this.startIndex = (this.pages - 1) * this.pageSize + 1;
+                this.endIndex = (this.pages - 1) * this.pageSize + this.pageSize;
+                if (this.endIndex > this.totalRecord) {
+                    this.endIndex = this.totalRecord;
+                }
+                this.ProductData = this.ProductData.slice(this.startIndex - 1, this.endIndex);
+                return of(this.ProductData)
             })
 
-    }
 
-    getPegination() {
-        this.service.getObj().subscribe(res => {
-            this.ProductData = res.results
-
-            this._total$.next(this.ProductData.length)
-            this.totalRecord = this.ProductData.length
-            this.startIndex = (this.pages - 1) * this.pageSize + 1;
-            this.endIndex = (this.pages - 1) * this.pageSize + this.pageSize;
-            if (this.endIndex > this.totalRecord) {
-                this.endIndex = this.totalRecord;
-            }
-            this.ProductData = this.ProductData.slice(this.startIndex - 1, this.endIndex);
-            return of(this.ProductData)
-
-        })
     }
 
     /**

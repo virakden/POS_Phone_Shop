@@ -14,9 +14,12 @@
                             placeholder="Enter product title" formControlName="productName" />
                     </div>
                     <div>
-                        <label>Product Description</label>
+                        <label class="form-label" for="gen-info-description-input">Product Description</label>
+                        <textarea formControlName="description" class="form-control" placeholder="Enter Description" id="gen-info-description-input" rows="4"></textarea>
+
+                        <!-- <label>Product Description</label>
                         <ckeditor formControlName="description" [editor]="Editor" data="">
-                        </ckeditor>
+                        </ckeditor> -->
                     </div>
                 </div>
             </div>
@@ -70,6 +73,7 @@
             </div>
             <!-- end card -->
             <div class="text-end mb-3">
+                <button routerLink="/stocks/list" class="btn btn-danger m-2">Back</button>
                 <button type="reset" (click)="create()" class="btn btn-success w-sm">
                     Submit
                 </button>
