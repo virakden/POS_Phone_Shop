@@ -9,4 +9,5 @@ interface BaseService<T> {
     fun updateObj(id: Long, t: T): T?
     fun findAll(): List<T>?
 
+
 }

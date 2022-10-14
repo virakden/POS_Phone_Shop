@@ -119,37 +119,16 @@ class ProductServiceImpl : ProductService {
             val gallery = Photo()
             val file = image.getFile("image$it")
             val upload = FileUpload.storeFileImage(photoFile!!, file!!)
-//            gallery.photoName = upload?.imageName
             gallery.product = product
             photoRepo.save(gallery)
         }
         return ResponseObject(200, "Upload Successful!!!")
     }
 
+    override fun deleteProduct(id: Long): MutableMap<String, Any> {
+        return responseObjectMap.responseObject(productRepo.deleteById(id))
+    }
 
-//    override fun getImageById(fileName: String,  request: HttpServletRequest): ResponseEntity<*>? {
-//        return try {
-//            FileUpload.getFile(fileName, photoFile!!, request, true)
-//        } catch (ex: Exception) {
-//            null
-//        }
-//    }
-//
-//    override fun uploadImage(
-//        id: Long,
-//        amountImage: Int,
-//        image: MultipartHttpServletRequest
-//    ): ResponseObject? {
-//        val product = productRepo.findByIdAndStatusTrue(id)
-//        repeat(amountImage) {
-//            val gallery = Photo()
-//            val file = image.getFile("image$it")
-//            val upload = FileUpload.storeFileImage(photoFile!!, file!!)
-//            gallery.photoName = upload?.imageName
-//            gallery.product = product
-//            photoRepo.save(gallery)
-//        }
-//        return ResponseObject(200, "Upload Successful!!!")
-//    }
+
 
 }

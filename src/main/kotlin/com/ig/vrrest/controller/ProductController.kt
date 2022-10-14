@@ -19,17 +19,18 @@ class ProductController {
     lateinit var responseObjectMap: ResponseObjectMap
 
     @PostMapping
-    fun addProduct(@RequestBody product: ProductRequest): MutableMap<String,Any> {
+    fun addProduct(@RequestBody product: ProductRequest): MutableMap<String, Any> {
         return productService.addProduct(product)
     }
 
     @PostMapping("/add-more")
-    fun addProduct (@RequestBody product: List<Product>): List<Product>? {
+    fun addProduct(@RequestBody product: List<Product>): List<Product>? {
         return productService.addMore(product)
     }
 
     @GetMapping("/{id}")
-    fun findById(@PathVariable id: Long): MutableMap<String, Any>? = responseObjectMap.responseObject(productService.findById(id))
+    fun findById(@PathVariable id: Long): MutableMap<String, Any>? =
+        responseObjectMap.responseObject(productService.findById(id))
 
     @GetMapping("/all")
     fun findAllProduct(): MutableMap<String, Any> = responseObjectMap.responseObject(productService.findAll())
@@ -46,19 +47,16 @@ class ProductController {
     }
 
     @PutMapping("/upLoadPhoto/{id}")
-//    fun uploadPhoto(@PathVariable id: Long, image: MutableList<ImageRequest>): MutableMap<String, Any>? =
-//        responseObjectMap.responseObject(productService.uploadImage(id, image)
-//    )
-    fun uploadPhoto(@PathVariable id: Long, amountImage: Int, image: MultipartHttpServletRequest
+    fun uploadPhoto(
+        @PathVariable id: Long, amountImage: Int, image: MultipartHttpServletRequest
     ): MutableMap<String, Any>? =
-        responseObjectMap.responseObject(productService.uploadImage(id, amountImage, image)
+        responseObjectMap.responseObject(
+            productService.uploadImage(id, amountImage, image)
         )
-//
-//
-//    @GetMapping("/image/{image}")
-//    fun getImage(@PathVariable image: String, request: HttpServletRequest): ResponseEntity<*>? {
-//        return productService.getImageById(image , request)
-//    }
+
+    @DeleteMapping("/delete/{id}")
+    fun deleteProduct(@PathVariable id: Long): MutableMap<String, Any>? =
+        responseObjectMap.responseObject(productService.deleteProduct(id))
 
 
 }

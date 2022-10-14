@@ -1,6 +1,7 @@
 package com.ig.vrrest.services.implement
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.ig.vrrest.base.response.ResponseObjectMap
 import com.ig.vrrest.exception.CustomException
 import com.ig.vrrest.exception.HttpCode
 import com.ig.vrrest.model.enumerate.AdjustmentType
@@ -25,6 +26,8 @@ class StockAdjustServiceImpl : StockAdjustService {
 
     @Autowired
     lateinit var productRepo: ProductRepo
+    @Autowired
+    lateinit var responseObjectMap: ResponseObjectMap
 
     override fun findAllList(q: String?, page: Int, size: Int): Page<StockAdjustment>? {
         return stockAdjustRepo.findAll({ root, _, cb ->
@@ -71,20 +74,39 @@ class StockAdjustServiceImpl : StockAdjustService {
                 StockAdjustment(null)
             }
         }*/
-    override fun updateStockByProductId(productId: Long, t: StockAdjustment): StockAdjustment? {
+    override fun updateStockByProductId(productId: Long, t: StockAdjustment): MutableMap<String,Any>? {
         val product = productRepo.findByIdAndStatusTrue(productId)
-        println(jacksonObjectMapper().writeValueAsString(t))
-        return if (t.adjustmentType == AdjustmentType.ADD_STOCK) {
+//        println(product!!.id)
+//        if (t.adjustmentType == AdjustmentType.ADD_STOCK) {
+//            product!!.stock = product.stock?.plus(t.qty!!)
+//            productRepo.save(product)
+//            stockAdjustRepo.save(StockAdjustment(adjustmentType = t.adjustmentType, qty = t.qty, reason = t.reason, product = product))
+//        } else if (t.adjustmentType == AdjustmentType.Deduct && product!!.stock!!.minus(t.qty!!) > 0) {
+//            product.stock = product.stock?.minus(t.qty!!.toInt())
+//            productRepo.save(product)
+//             stockAdjustRepo.save(StockAdjustment(adjustmentType = t.adjustmentType, qty = t.qty, product = product))
+//        } else {
+////           return throw CustomException(HttpCode.BAD_REQUEST, "Can not")
+//            return responseObjectMap.responseCodeWithMessage(500,"Not Available")
+//
+//
+//        }
+//        return null
+//        println(jacksonObjectMapper().writeValueAsString(t))
+        return responseObjectMap.responseObject(if (t.adjustmentType == AdjustmentType.ADD_STOCK) {
             product!!.stock = product.stock?.plus(t.qty!!)
             productRepo.save(product)
-            stockAdjustRepo.save(StockAdjustment(adjustmentType = t.adjustmentType, qty = t.qty, product = product))
+            stockAdjustRepo.save(StockAdjustment(adjustmentType = t.adjustmentType, qty = t.qty, reason = t.reason, product = product))
         } else if (t.adjustmentType == AdjustmentType.Deduct && product!!.stock!!.minus(t.qty!!) > 0) {
             product.stock = product.stock?.minus(t.qty!!.toInt())
             productRepo.save(product)
             stockAdjustRepo.save(StockAdjustment(adjustmentType = t.adjustmentType, qty = t.qty, product = product))
         } else {
-            throw CustomException(HttpCode.BAD_REQUEST, "Can not")
+//           return throw CustomException(HttpCode.BAD_REQUEST, "Can not")
+            return responseObjectMap.responseCodeWithMessage(500,"Not Available")
+
         }
+        )
     }
 
     override fun findAll(): List<StockAdjustment>? {

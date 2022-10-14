@@ -23,4 +23,6 @@ interface ProductService : BaseService<Product> {
         amountImage: Int,
         image: MultipartHttpServletRequest
     ): ResponseObject?
+
+    fun deleteProduct(id: Long): MutableMap<String, Any>
 }
