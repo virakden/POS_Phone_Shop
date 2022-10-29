@@ -24,11 +24,12 @@
                 </div>
             </div>
 
+            <!-- Filter left side -->
             <div class="accordion accordion-flush">
-
                 <div class="card-body border-bottom">
                     <div>
                         <p class="text-muted text-uppercase fs-12 fw-medium mb-2">Products</p>
+                        
                         <ngb-accordion #acc="ngbAccordion" activeIds="static-1" class="products-filter vstack gap-2"
                             [closeOthers]="true">
                             <ngb-panel id="static-1">
@@ -127,7 +128,7 @@
                                     </div>
                                 </ng-template>
                             </ngb-panel>
-                        </ngb-accordion>
+                        </ngb-accordion>                      
                     </div>
                 </div>
 
@@ -195,6 +196,7 @@
                 <!-- end accordion-item -->
 
             </div>
+            <!-- End Filter -->
         </div>
         <!-- end card -->
     </div>
@@ -207,7 +209,6 @@
                     <div class="row g-4">
                         <div class="col-sm-auto">
                             <div>
-
                                 <a routerLink="/home/confirm" (click)="confirmOrder()" class="btn btn-success"><i
                                         class="ri-add-line align-bottom me-1"></i> Confirm</a>
                             </div>
@@ -249,9 +250,6 @@
                                                                     (sort)="onSort($event)">Stock</th>
                                                                 <th scope="col" sortable="productPrice"
                                                                     (sort)="onSort($event)">Price</th>
-                                                                <!-- <th scope="col" sortable="order" (sort)="onSort($event)">Orders</th>
-                                <th scope="col" sortable="rating" (sort)="onSort($event)">Rating</th>
-                                <th scope="col" sortable="date" (sort)="onSort($event)">Published</th> -->
                                                                 <th scope="col">Action</th>
                                                             </tr>
                                                         </thead>

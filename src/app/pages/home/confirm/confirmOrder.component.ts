@@ -176,7 +176,7 @@ export class ConfirmOrderComponent implements OnInit {
     // const count: any = items.length;
     // console.log(count);
 
-    this.items=  this.items.map((item:any) =>{
+    this.items=  this.items?.map((item:any) =>{
         return {
             product:item,
             qty:1
@@ -200,9 +200,8 @@ export class ConfirmOrderComponent implements OnInit {
     this.setDataArray();
     this.value = [];    
     this.productService.addSale(this.confirmForm.value).subscribe(res =>{
-        window.location.reload()        
+        // window.location.reload()        
         this.clearItems();
-    
         const value = JSON.stringify(res.results);
         localStorage.setItem('Invoice',value); 
           

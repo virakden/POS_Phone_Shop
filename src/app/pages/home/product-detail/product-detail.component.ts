@@ -6,6 +6,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SwiperComponent, SwiperDirective } from 'ngx-swiper-wrapper';
 
 import { productModel, productList } from '../product.model';
+import { ProductModel } from '../products/products.model';
 
 @Component({
   selector: 'app-product-detail',
@@ -20,8 +21,8 @@ export class ProductDetailComponent implements OnInit {
 
   // bread crumb items
   breadCrumbItems!: Array<{}>;
-  public productDetail!: productModel[];
-  isImage;
+  public productDetail!: ProductModel[];
+//   isImage;
   defaultSelect = 2;
   readonly = false;
 
@@ -29,18 +30,22 @@ export class ProductDetailComponent implements OnInit {
   @ViewChild(SwiperComponent, { static: false }) componentRef?: SwiperComponent;
 
   constructor(private route: ActivatedRoute, private modalService: NgbModal) {
-    this.route.params.subscribe(params =>
-      this.productDetail = productList.filter(function (product) {
-        return product.id == parseInt(params['id'])
-      })
-    );
-    this.isImage = this.productDetail[0].images[0];
+    
+    
+    // this.route.params.subscribe(params =>
+    //   this.productDetail = productList.filter(function (product) {
+    //     return product.id == parseInt(params['id'])
+    //   })
+    // );
+    // this.isImage = this.productDetail[0].images[0];
   }
 
   ngOnInit(): void {
     /**
    * BreadCrumb
    */
+     this.productDetail = this.route.snapshot.data['product'];
+     console.log(this.productDetail);
      this.breadCrumbItems = [
       { label: 'home' },
       { label: 'Product Details', active: true }

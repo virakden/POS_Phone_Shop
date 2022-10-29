@@ -8,17 +8,17 @@
             <div class="card-body">
                 <div class="row gx-lg-5">
                     <div class="col-xl-4 col-md-8 mx-auto">
-                        <div class="product-img-slider sticky-side-div">
-                            <swiper [config]="config">
-                                <div class="swiper-slide" *ngFor="let i of productDetail[0].images">
-                                    <img src="{{i}}" alt="" class="img-fluid d-block" />
+                        <!-- <div class="product-img-slider sticky-side-div">
+                            <swiper [config]="config"> -->
+                                <!-- <div class="swiper-slide" *ngFor="let i of productDetail[0].images"> -->
+                                    <!-- <img src="{{i}}" alt="" class="img-fluid d-block" />
                                 </div>
                             </swiper>
                             <div class="swiper-arrow">
                                 <div class="swiper-button-prev" (click)="previousSlideComp()"></div>
                                 <div class="swiper-button-next" (click)="nextSlideComp()"></div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                     <!-- end col -->
 
@@ -26,7 +26,7 @@
                         <div class="mt-xl-0 mt-5">
                             <div class="d-flex">
                                 <div class="flex-grow-1">
-                                    <h4>{{productDetail[0].name}}</h4>
+                                    <!-- <h4>{{productDetail[0].name}}</h4> -->
 
                                 </div>
                             </div>
@@ -41,7 +41,7 @@
                                             </div>
                                             <div class="flex-grow-1">
                                                 <p class="text-muted mb-1">Price :</p>
-                                                <h5 class="mb-0 fw-bold">${{productDetail[0].price}}</h5>
+                                                <!-- <h5 class="mb-0 fw-bold">${{productDetail[0].price}}</h5> -->
                                             </div>
                                         </div>
                                     </div>
@@ -57,7 +57,7 @@
                                             </div>
                                             <div class="flex-grow-1">
                                                 <p class="text-muted mb-1">Available Stocks :</p>
-                                                <h5 class="mb-0 fw-bold">{{productDetail[0].stocks}}</h5>
+                                                <!-- <h5 class="mb-0 fw-bold">{{productDetail[0].stocks}}</h5> -->
                                             </div>
                                         </div>
                                     </div>
@@ -70,7 +70,7 @@
                                     <div class=" mt-4">
                                         <h5 class="fs-14">Colors :</h5>
                                         <div class="d-flex flex-wrap gap-2">
-                                            <div ngbTooltip="{{i.key}}" placement="top"
+                                            <!-- <div ngbTooltip="{{i.key}}" placement="top"
                                                 *ngFor="let i of productDetail[0].colors">
                                                 <button type="button"
                                                     class="btn avatar-xs p-0 d-flex align-items-center justify-content-center border rounded-circle fs-20 {{i.value}}"
@@ -82,7 +82,7 @@
                                                     *ngIf="i.key != 'Out of Stock'">
                                                     <i class="ri-checkbox-blank-circle-fill"></i>
                                                 </button>
-                                            </div>
+                                            </div> -->
                                         </div>
                                     </div>
                                 </div>
@@ -93,7 +93,7 @@
                             <div class="mt-4 text-muted">
                                 <h5 class="fs-14">Services :</h5>
                                 <ul class="list-unstyled product-desc-list">
-                                    <li class="py-1" *ngFor="let i of productDetail[0].services">{{i}}</li>
+                                    <!-- <li class="py-1" *ngFor="let i of productDetail[0].services">{{i}}</li> -->
                                 </ul>
                             </div>
 

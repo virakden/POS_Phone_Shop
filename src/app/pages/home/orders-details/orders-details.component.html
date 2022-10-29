@@ -56,15 +56,15 @@
                                         <tbody>
                                             <tr>
                                                 <td>Sub Total :</td>
-                                                <td class="text-end">${{invoice.subTotal}}</td>
+                                                <td class="text-end">${{invoice?.subTotal}}</td>
                                             </tr>
                                             <tr>
                                                 <td>Discount <span class="text-muted"></span> : :</td>
-                                                <td class="text-end">%{{invoice.discount}}</td>
+                                                <td class="text-end">%{{invoice?.discount}}</td>
                                             </tr>
                                             <tr class="border-top border-top-dashed">
                                                 <th scope="row">Total (USD) :</th>
-                                                <th class="text-end">${{invoice.total}}</th>
+                                                <th class="text-end">${{invoice?.total}}</th>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -91,16 +91,16 @@
                 <ul class="list-unstyled mb-0 vstack gap-3">
                     <li class=" fw-bold">
                         <i class="ri-user-line me-2 align-middle text-muted fs-16"></i>
-                        {{invoice.customerName}}
+                        {{invoice?.customerName}}
                         <!-- <p class="text-muted mb-0">Customer</p> -->
                     </li>
                     <li class="fw-bold">
                         <i class="ri-phone-line me-2 align-middle text-muted fs-16"></i>
-                        {{invoice.customerTelephone}}
+                        {{invoice?.customerTelephone}}
                     </li>
                     <li class="fw-bold">
                         <i class="ri-calendar-check-line me-2 align-middle text-muted fs-16"></i>
-                        {{invoice.saleDate | date: 'yyyy-MMM-dd'}}
+                        {{invoice?.saleDate | date: 'yyyy-MMM-dd'}}
                     </li>
                 </ul>
             </div>

@@ -1,3 +1,4 @@
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2';
 import { FormGroup, FormBuilder, RequiredValidator, Validators } from '@angular/forms';
 import { ProductsModel } from '../list/listStock.model';
@@ -23,7 +24,7 @@ export class AdjustmentComponent implements OnInit {
   ProductData: ProductsModel[]=[];
   public Editor = ClassicEditor;
 
-  constructor(private service: ListStocksService, public fb: FormBuilder) { }
+  constructor(private service: ListStocksService, public fb: FormBuilder, private modalService: NgbModal) { }
 
   ngOnInit(): void {
     this.initCreateForm();
@@ -98,6 +99,7 @@ export class AdjustmentComponent implements OnInit {
             }
         } 
     )
+    this.modalService.dismissAll();
   }
 
 }
